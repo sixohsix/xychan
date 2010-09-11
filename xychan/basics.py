@@ -1,11 +1,6 @@
 
-from bottle import route, error, HTTPError, get, post
-from bottle import view as _view
-
+from .util import *
 from .db import *
-
-def view(tpl, **defaults):
-    return _view("xychan/templates/" + tpl, **defaults)
 
 
 @get('/')
