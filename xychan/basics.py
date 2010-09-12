@@ -16,7 +16,8 @@ def index():
 
 @get('/favicon.ico')
 def favicon():
-    raise HTTPError(404)
+    response.content_type = "image/png"
+    return open('./xychan/static/favicon.png').read()
 
 
 @get('/setup')
@@ -40,13 +41,14 @@ def board(board_name):
 
 
 @post('/:board_name/post')
+@view('post_successful.tpl')
 def post(board_name):
     with active_session as s:
         board = get_board_or_die(s, board_name)
         s.add(Post(board=board,
                    content=request.POST.get('content', ''),
-                   ip_address=request.get('REMOTE_ADDR', '0.0.0.0')))
-    return "Post successful."
+                   poster_ip=request.get('REMOTE_ADDR', '0.0.0.0')))
+        return dict(board=board)
 
 
 @error(404)
