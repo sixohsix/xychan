@@ -1,7 +1,8 @@
 
 from sqlalchemy import (
     create_engine,
-    Table, Column, Integer, String, MetaData, ForeignKey,
+    Table, Column, Integer, String, MetaData, ForeignKey, DateTime,
+    func,
     )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, backref
@@ -49,7 +50,9 @@ class Post(Base):
 
     id = Column(Integer, primary_key=True)
     board_id = Column(Integer, ForeignKey('boards.id'), nullable=False)
-    content = Column(String)
+    posted = Column(DateTime, nullable=False, default=func.now())
+    poster_ip = Column(String, nullable=False)
+    content = Column(String, nullable=False)
 
     board = relationship(Board, backref=backref('posts', order_by=id))
 
