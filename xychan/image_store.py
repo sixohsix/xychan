@@ -1,6 +1,6 @@
 
 import os
-from subprocess import check_call
+from subprocess import check_output
 
 from .util import random_key, num_encode
 
@@ -8,13 +8,13 @@ IMAGE_DIR = "_images"
 THUMBS_DIR = IMAGE_DIR + os.sep + "thumbs"
 
 def _im_identify_type(fn):
-    out = check_call("identify", "-format", "%m", fn)
+    out = check_output(["identify", "-format", "%m", fn])
     return out.strip().lower()
 
 
 def _im_make_thumb(fn):
-    check_call("convert", fn, "-resize", "150x150", "-quality", "60",
-               THUMBS_DIR + fn[fn.rindex(os.sep):fn.rindex('.')] + '.jpeg')
+    check_output(["convert", fn, "-resize", "150x150", "-quality", "60",
+                  THUMBS_DIR + fn[fn.rindex(os.sep):fn.rindex('.')] + '.jpeg'])
 
 
 def store_image(image_data):
@@ -23,7 +23,7 @@ def store_image(image_data):
     open(fn, 'w').write(image_data)
     typ = _im_identify_type(fn)
     real_fn = fn + '.' + typ
-    check_call("mv", fn, real_fn)
+    check_output(["mv", fn, real_fn])
     _im_make_thumb(real_fn)
     return key + '.' + typ
 
