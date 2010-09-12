@@ -64,6 +64,7 @@ class Post(Base):
     poster_name = Column(String, nullable=False)
     subject = Column(String, nullable=False)
     content = Column(String, nullable=False)
+    image_key = Column(String)
 
     thread = relationship(Thread, backref=backref('posts', order_by=id))
 

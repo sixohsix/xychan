@@ -34,3 +34,6 @@ def fetch_image(fn):
 
 def fetch_thumb(fn):
     return open(THUMBS_DIR + os.sep + fn).read()
+
+
+__all__ = ['fetch_image', 'fetch_thumb', 'store_image']

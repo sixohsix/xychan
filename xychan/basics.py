@@ -55,14 +55,18 @@ def board(board_name):
 def post_thread(board_name):
     with active_session as s:
         board = get_board_or_die(s, board_name)
+        image_key = None
+        if request.files.get('image') is not None: # LOL WAT
+            import pdb; pdb.set_trace() # --miv DEBUG
+            image_key = store_image(request.files.get('image').read_binary())
         thread = Thread(board=board)
         s.add(thread)
         s.add(Post(thread=thread,
                    content=request.POST.get('content', ''),
                    poster_name=request.POST.get('poster_name', ''),
                    subject=request.POST.get('subject', ''),
-                   poster_ip=request.get('REMOTE_ADDR', '0.0.0.0')))
-        import pdb; pdb.set_trace() # --miv DEBUG
+                   poster_ip=request.get('REMOTE_ADDR', '0.0.0.0'),
+                   image_key=image_key))
         return dict(board=board)
 
 

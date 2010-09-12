@@ -15,6 +15,9 @@
       %first_post = False
       <div class="subject">{{post.subject}}</div>
       <div class="poster_name">{{post.poster_name}}</div>
+      %if post.image_key:
+      <img class="post_image" src="/t_/{{post.image_key}}">
+      %end
       <div class="content">
         {{post.content}}
       </div>
