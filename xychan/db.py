@@ -45,17 +45,26 @@ class Board(Base):
     short_name = Column(String, nullable=False, unique=True)
 
 
+class Thread(Base):
+    __tablename__ = 'threads'
+
+    id = Column(Integer, primary_key=True)
+    board_id = Column(Integer, ForeignKey('boards.id'), nullable=False)
+
+    board = relationship(Board, backref=backref('threads', order_by=id))
+
+
 class Post(Base):
     __tablename__ = 'posts'
 
     id = Column(Integer, primary_key=True)
-    board_id = Column(Integer, ForeignKey('boards.id'), nullable=False)
+    thread_id = Column(Integer, ForeignKey('threads.id'), nullable=False)
     posted = Column(DateTime, nullable=False, default=func.now())
     poster_ip = Column(String, nullable=False)
     poster_name = Column(String, nullable=False)
     subject = Column(String, nullable=False)
     content = Column(String, nullable=False)
 
-    board = relationship(Board, backref=backref('posts', order_by=id))
+    thread = relationship(Thread, backref=backref('posts', order_by=id))
 
 metadata.create_all()

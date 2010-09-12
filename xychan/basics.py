@@ -31,8 +31,10 @@ def setup():
     with active_session as s:
         b = Board(short_name='test')
         s.add(b)
+        t = Thread(board=b)
+        s.add(t)
         s.add(Post(
-                board=b, content="This is a post", poster_ip='1.2.3.4',
+                thread=t, content="This is a post", poster_ip='1.2.3.4',
                 poster_name="poster_name", subject="subject"))
     return dict()
 
@@ -43,18 +45,22 @@ def setup():
 def board(board_name):
     with active_session as s:
         board = get_board_or_die(s, board_name)
-        posts = (s.query(Post)
-                 .filter(Post.board == board).all())
-        return dict(board=board, posts=posts)
+        threads = (s.query(Thread)
+                   .filter(Thread.board == board).all())
+        return dict(board=board, threads=threads)
 
 
 @post('/:board_name/post')
 @view('post_successful.tpl')
-def post(board_name):
+def post_thread(board_name):
     with active_session as s:
         board = get_board_or_die(s, board_name)
-        s.add(Post(board=board,
+        thread = Thread(board=board)
+        s.add(thread)
+        s.add(Post(thread=thread,
                    content=request.POST.get('content', ''),
+                   poster_name=request.POST.get('poster_name', ''),
+                   subject=request.POST.get('subject', ''),
                    poster_ip=request.get('REMOTE_ADDR', '0.0.0.0')))
         return dict(board=board)
 
