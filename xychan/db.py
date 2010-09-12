@@ -42,7 +42,7 @@ class Board(Base):
     __tablename__ = 'boards'
 
     id = Column(Integer, primary_key=True)
-    short_name = Column(String, nullable=False)
+    short_name = Column(String, nullable=False, unique=True)
 
 
 class Post(Base):
@@ -52,6 +52,8 @@ class Post(Base):
     board_id = Column(Integer, ForeignKey('boards.id'), nullable=False)
     posted = Column(DateTime, nullable=False, default=func.now())
     poster_ip = Column(String, nullable=False)
+    poster_name = Column(String, nullable=False)
+    subject = Column(String, nullable=False)
     content = Column(String, nullable=False)
 
     board = relationship(Board, backref=backref('posts', order_by=id))

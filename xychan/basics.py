@@ -20,12 +20,20 @@ def favicon():
     return open('./xychan/static/favicon.png').read()
 
 
+@get('/style.css')
+def style():
+    response.content_type = "text/css"
+    return open('./xychan/static/style.css').read()
+
+
 @get('/setup')
 def setup():
     with active_session as s:
         b = Board(short_name='test')
         s.add(b)
-        s.add(Post(board=b, content="This is a post", poster_ip='1.2.3.4'))
+        s.add(Post(
+                board=b, content="This is a post", poster_ip='1.2.3.4',
+                poster_name="poster_name", subject="subject"))
     return dict()
 
 

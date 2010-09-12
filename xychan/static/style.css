@@ -1,0 +1,11 @@
+body {
+  font-family: Helvetica,sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Helvetica Neue",Helvetica,sans-serif;
+}
+h1.post_ok {
+  position: absolute;
+  top: 40%;
+  align: center;
+}
