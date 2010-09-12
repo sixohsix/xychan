@@ -67,4 +67,5 @@ class Post(Base):
 
     thread = relationship(Thread, backref=backref('posts', order_by=id))
 
+
 metadata.create_all()

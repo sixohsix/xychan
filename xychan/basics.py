@@ -62,6 +62,7 @@ def post_thread(board_name):
                    poster_name=request.POST.get('poster_name', ''),
                    subject=request.POST.get('subject', ''),
                    poster_ip=request.get('REMOTE_ADDR', '0.0.0.0')))
+        import pdb; pdb.set_trace() # --miv DEBUG
         return dict(board=board)
 
 

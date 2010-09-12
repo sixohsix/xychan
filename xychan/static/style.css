@@ -9,3 +9,19 @@ h1.post_ok {
   top: 40%;
   align: center;
 }
+.post {
+  margin: 12pt;
+  padding: 6pt;
+  background: #ddd;
+  display: inline-block;
+  min-width: 360pt;
+}
+.post .subject {
+  display: inline-block;
+  margin-right: 4em;
+}
+.post .poster_name {
+  display: inline-block;
+  margin-right: 4em;
+  color: green;
+}
