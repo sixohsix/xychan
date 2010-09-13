@@ -11,8 +11,8 @@ from sqlalchemy.orm import sessionmaker, relationship, backref
 try:
     configured
 except NameError:
-    engine = create_engine('sqlite:///:memory:', echo=True)
-    #engine = create_engine('sqlite:///test.db', echo=True)
+    #engine = create_engine('sqlite:///:memory:', echo=True)
+    engine = create_engine('sqlite:///test.db', echo=True)
     metadata = MetaData()
     metadata.bind = engine
     Session = sessionmaker(bind=engine)

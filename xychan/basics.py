@@ -14,12 +14,14 @@ def index():
 
 
 @get('/favicon.ico')
+@cache_forever
 def favicon():
     response.content_type = "image/png"
     return open('./xychan/static/favicon.png').read()
 
 
 @get('/style.css')
+@cache_forever
 def style():
     response.content_type = "text/css"
     return open('./xychan/static/style.css').read()
@@ -70,6 +72,7 @@ def post_thread(board_name):
 
 
 @get('/t_/:image')
+@cache_forever
 def get_thumbnail(image):
     thumb_data = fetch_thumb(image)
     response.content_type = 'image/' + image.split('.')[-1]
@@ -77,6 +80,7 @@ def get_thumbnail(image):
 
 
 @get('/i_/:image')
+@cache_forever
 def get_image(image):
     image_data = fetch_image(image)
     response.content_type = 'image/' + image.split('.')[-1]
