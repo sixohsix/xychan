@@ -17,5 +17,5 @@ def test_post_to_board():
     app.get('/setup')
     r = app.post('/test/post', params=dict(
             content="Test post 2242"))
-    r = app.get('/test')
+    r = app.get('/test/')
     assert "Test post 2242" in r

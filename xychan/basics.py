@@ -66,7 +66,6 @@ def get_image(image):
     return image_data
 
 
-@get('/:board_name')
 @get('/:board_name/')
 @view('board.tpl')
 def board(board_name):
@@ -75,16 +74,6 @@ def board(board_name):
         threads = (s.query(Thread)
                    .filter(Thread.board == board).all())
         return dict(board=board, threads=threads)
-
-
-@get('/:board_name/:thread_id')
-@get('/:board_name/:thread_id/')
-@view('thread.tpl')
-def thread(board_name, thread_id):
-    with active_session as s:
-        board = get_board_or_die(s, board_name)
-        thread = get_thread_in_board_or_die(s, board, thread_id)
-        return dict(board=board, thread=thread)
 
 
 @post('/:board_name/post')
@@ -105,6 +94,15 @@ def post_thread(board_name):
                    poster_ip=request.get('REMOTE_ADDR', '0.0.0.0'),
                    image_key=image_key))
         return dict(board=board)
+
+
+@get('/:board_name/:thread_id/')
+@view('thread.tpl')
+def thread(board_name, thread_id):
+    with active_session as s:
+        board = get_board_or_die(s, board_name)
+        thread = get_thread_in_board_or_die(s, board, thread_id)
+        return dict(board=board, thread=thread)
 
 
 @post('/:board_name/:thread_id/post')
