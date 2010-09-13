@@ -8,6 +8,16 @@ def get_board_or_die(s, board_name):
     return board
 
 
+def get_thread_in_board_or_die(s, board, thread_id):
+    thread = (s.query(Thread)
+              .filter(Thread.id == thread_id)
+              .filter(Thread.board == board)
+              .first())
+    if not thread:
+        raise HTTPError(404, "No such thread.")
+    return thread
+
+
 @get('/')
 def index():
     return "Go to the first board: <a href='/test/'>go there</a>."
@@ -40,6 +50,22 @@ def create_a_board():
     return dict()
 
 
+@get('/t_/:image')
+@cache_forever
+def get_thumbnail(image):
+    thumb_data = fetch_thumb(image)
+    response.content_type = 'image/' + image.split('.')[-1]
+    return thumb_data
+
+
+@get('/i_/:image')
+@cache_forever
+def get_image(image):
+    image_data = fetch_image(image)
+    response.content_type = 'image/' + image.split('.')[-1]
+    return image_data
+
+
 @get('/:board_name')
 @get('/:board_name/')
 @view('board.tpl')
@@ -49,6 +75,16 @@ def board(board_name):
         threads = (s.query(Thread)
                    .filter(Thread.board == board).all())
         return dict(board=board, threads=threads)
+
+
+@get('/:board_name/:thread_id')
+@get('/:board_name/:thread_id/')
+@view('thread.tpl')
+def thread(board_name, thread_id):
+    with active_session as s:
+        board = get_board_or_die(s, board_name)
+        thread = get_thread_in_board_or_die(s, board, thread_id)
+        return dict(board=board, thread=thread)
 
 
 @post('/:board_name/post')
@@ -71,20 +107,23 @@ def post_thread(board_name):
         return dict(board=board)
 
 
-@get('/t_/:image')
-@cache_forever
-def get_thumbnail(image):
-    thumb_data = fetch_thumb(image)
-    response.content_type = 'image/' + image.split('.')[-1]
-    return thumb_data
-
-
-@get('/i_/:image')
-@cache_forever
-def get_image(image):
-    image_data = fetch_image(image)
-    response.content_type = 'image/' + image.split('.')[-1]
-    return image_data
+@post('/:board_name/:thread_id/post')
+@view('post_successful.tpl')
+def post_thread(board_name, thread_id):
+    with active_session as s:
+        board = get_board_or_die(s, board_name)
+        thread = get_thread_in_board_or_die(s, board, thread_id)
+        image_key = None
+        img = request.files.get('image')
+        if img is not None: # LOL WAT
+            image_key = store_image(img.value)
+        s.add(Post(thread=thread,
+                   content=request.POST.get('content', ''),
+                   poster_name=request.POST.get('poster_name', ''),
+                   subject=request.POST.get('subject', ''),
+                   poster_ip=request.get('REMOTE_ADDR', '0.0.0.0'),
+                   image_key=image_key))
+        return dict(board=board)
 
 
 @error(404)
