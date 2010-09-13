@@ -42,6 +42,14 @@ class SessionContextMgr(object):
 active_session = SessionContextMgr()
 
 
+def DbSessionMiddleware(wrapped_app):
+    def _DbSessionMiddleware(environ, start_response):
+        with active_session as s:
+            environ['db_session'] = s
+            return wrapped_app(environ, start_response)
+    return _DbSessionMiddleware
+
+
 class Board(Base):
     __tablename__ = 'boards'
 

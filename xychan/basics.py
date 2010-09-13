@@ -1,6 +1,5 @@
 
 from .util import *
-from .db import *
 
 def get_board_or_die(s, board_name):
     board = s.query(Board).filter(Board.short_name == board_name).first()
@@ -79,9 +78,9 @@ def get_thumbnail(image):
 
 @get('/i_/:image')
 def get_image(image):
-    thumb_data = fetch_image(image)
+    image_data = fetch_image(image)
     response.content_type = 'image/' + image.split('.')[-1]
-    return thumb_data
+    return image_data
 
 
 @error(404)

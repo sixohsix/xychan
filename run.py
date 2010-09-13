@@ -1,7 +1,7 @@
 
 from bottle import run, debug
 
-from xychan import *
+from xychan import app
 
 debug(True)
-run(reloader=True)
+run(app, reloader=True)

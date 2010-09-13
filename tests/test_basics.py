@@ -1,12 +1,12 @@
 
-from bottle import default_app, debug
+from bottle import debug
 from paste.fixture import TestApp
 
-from xychan import *
+from xychan import app
 
 debug(True)
 
-app = TestApp(default_app())
+app = TestApp(app)
 
 
 def test_home():

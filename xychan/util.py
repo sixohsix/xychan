@@ -10,3 +10,4 @@ def random_key():
     return randint(0, 2**160)
 
 from .image_store import *
+from .db import *
