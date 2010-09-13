@@ -15,8 +15,9 @@
       %first_post = False
       <div class="subject">{{post.subject}}</div>
       <div class="poster_name">{{post.poster_name}}</div>
+      <div class="post_id">No. {{post.id}}</div>
       %if post.image_key:
-      <img class="post_image" src="/t_/{{post.image_key}}">
+      <a href="/i_/{{post.image_key}}"><img class="post_image" src="/t_/{{post.image_key}}"></a>
       %end
       <div class="content">
         {{post.content}}

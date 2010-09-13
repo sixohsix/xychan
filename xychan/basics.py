@@ -27,7 +27,7 @@ def style():
 
 
 @get('/setup')
-def setup():
+def create_a_board():
     with active_session as s:
         b = Board(short_name='test')
         s.add(b)
@@ -56,9 +56,9 @@ def post_thread(board_name):
     with active_session as s:
         board = get_board_or_die(s, board_name)
         image_key = None
-        if request.files.get('image') is not None: # LOL WAT
-            import pdb; pdb.set_trace() # --miv DEBUG
-            image_key = store_image(request.files.get('image').read_binary())
+        img = request.files.get('image')
+        if img is not None: # LOL WAT
+            image_key = store_image(img.value)
         thread = Thread(board=board)
         s.add(thread)
         s.add(Post(thread=thread,
@@ -68,6 +68,20 @@ def post_thread(board_name):
                    poster_ip=request.get('REMOTE_ADDR', '0.0.0.0'),
                    image_key=image_key))
         return dict(board=board)
+
+
+@get('/t_/:image')
+def get_thumbnail(image):
+    thumb_data = fetch_thumb(image)
+    response.content_type = 'image/' + image.split('.')[-1]
+    return thumb_data
+
+
+@get('/i_/:image')
+def get_image(image):
+    thumb_data = fetch_image(image)
+    response.content_type = 'image/' + image.split('.')[-1]
+    return thumb_data
 
 
 @error(404)

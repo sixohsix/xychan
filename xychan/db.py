@@ -7,14 +7,18 @@ from sqlalchemy import (
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, backref
 
-engine = create_engine('sqlite:///:memory:', echo=True)
 
-metadata = MetaData()
-metadata.bind = engine
+try:
+    configured
+except NameError:
+    engine = create_engine('sqlite:///:memory:', echo=True)
+    #engine = create_engine('sqlite:///test.db', echo=True)
+    metadata = MetaData()
+    metadata.bind = engine
+    Session = sessionmaker(bind=engine)
+    Base = declarative_base(metadata=metadata)
+    configured = True
 
-Session = sessionmaker(bind=engine)
-
-Base = declarative_base(metadata=metadata)
 
 class SessionContextMgr(object):
     def __init__(self):

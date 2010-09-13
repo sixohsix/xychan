@@ -29,10 +29,14 @@ def store_image(image_data):
 
 
 def fetch_image(fn):
+    if fn.count(os.sep):
+        raise Exception("Uh no")
     return open(IMAGE_DIR + os.sep + fn).read()
 
 
 def fetch_thumb(fn):
+    if fn.count(os.sep):
+        raise Exception("Uh no")
     return open(THUMBS_DIR + os.sep + fn).read()
 
 
