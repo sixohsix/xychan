@@ -8,12 +8,10 @@
   %include _post_form.tpl board=board
   <hr />
   %for thread in threads:
-  %reply_link = url('thread', board_name=board.short_name, thread_id=thread.id)
   <div class="thread">
-    %first_post = True
+    %reply_link = url('thread', board_name=board.short_name, thread_id=thread.id)
     %for post in thread.short_view_posts:
-      %include _post post=post, reply_link=reply_link, first_post=first_post
-      %first_post = False
+      %include _post post=post, reply_link=reply_link, first_post=reply_link
       %reply_link = None
     </div>
     %end
