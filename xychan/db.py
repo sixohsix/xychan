@@ -63,8 +63,11 @@ class Thread(Base):
 
     id = Column(Integer, primary_key=True)
     board_id = Column(Integer, ForeignKey('boards.id'), nullable=False)
+    last_post_time = Column(DateTime)
 
-    board = relationship(Board, backref=backref('threads', order_by=id))
+    board = relationship(Board,
+                         backref=backref(
+            'threads', order_by=desc(last_post_time)))
 
 
 class Post(Base):

@@ -73,7 +73,7 @@ def board(board_name):
         board = get_board_or_die(s, board_name)
         threads = (s.query(Thread)
                    .filter(Thread.board == board)
-                   .order_by(desc(Thread.id)).all())
+                   .all())
         return dict(board=board, threads=threads)
 
 
@@ -86,7 +86,7 @@ def post_thread(board_name):
         img = request.files.get('image')
         if img is not None: # LOL WAT
             image_key = store_image(img.value)
-        thread = Thread(board=board)
+        thread = Thread(board=board, last_post_time=func.now())
         s.add(thread)
         s.add(Post(thread=thread,
                    content=request.POST.get('content', ''),
@@ -116,6 +116,7 @@ def post_thread(board_name, thread_id):
         img = request.files.get('image')
         if img is not None: # LOL WAT
             image_key = store_image(img.value)
+        thread.last_post_time = func.now()
         s.add(Post(thread=thread,
                    content=request.POST.get('content', ''),
                    poster_name=request.POST.get('poster_name', ''),
