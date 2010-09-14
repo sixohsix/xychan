@@ -1,5 +1,10 @@
 
+import re
+import cgi
+
 from .util import *
+
+_link_line_re = re.compile(r"&gt;&gt; *([0-9]+) *")
 
 def get_board_or_die(s, board_name):
     board = s.query(Board).filter(Board.short_name == board_name).first()
@@ -16,6 +21,24 @@ def get_thread_in_board_or_die(s, board, thread_id):
     if not thread:
         raise HTTPError(404, "No such thread.")
     return thread
+
+
+def sanitize_content(s, content):
+    lines = []
+    for line in content.split('\n'):
+        line = cgi.escape(line)
+        m = _link_line_re.match(line)
+        if m:
+            post = s.query(Post).filter(Post.id == m.groups()[0]).first()
+            if post:
+                line = (u"<a href=\""
+                        + url('thread', board_name=post.thread.board.short_name,
+                              thread_id=post.thread.id)
+                        + "#" + str(post.id) + "\">"
+                        + line
+                        + "</a>")
+        lines.append(line)
+    return '<br>\n'.join(lines)
 
 
 @get('/', name='index')
@@ -78,6 +101,7 @@ def board(board_name):
                    .filter(Thread.board == board)
                    .order_by(desc(Thread.last_post_time))
                    .all())
+        threads = [thread for thread in  threads if thread.posts]
         return dict(board=board, threads=threads)
 
 
@@ -93,7 +117,7 @@ def post_thread(board_name):
         thread = Thread(board=board, last_post_time=func.now())
         s.add(thread)
         s.add(Post(thread=thread,
-                   content=request.POST.get('content', ''),
+                   content=sanitize_content(s, request.POST.get('content', '')),
                    poster_name=request.POST.get('poster_name', ''),
                    subject=request.POST.get('subject', ''),
                    poster_ip=request.get('REMOTE_ADDR', '0.0.0.0'),
@@ -122,7 +146,7 @@ def post_reply(board_name, thread_id):
             image_key = store_image(img.value)
         thread.last_post_time = func.now()
         s.add(Post(thread=thread,
-                   content=request.POST.get('content', ''),
+                   content=sanitize_content(s, request.POST.get('content', '')),
                    poster_name=request.POST.get('poster_name', ''),
                    subject=request.POST.get('subject', ''),
                    poster_ip=request.get('REMOTE_ADDR', '0.0.0.0'),
