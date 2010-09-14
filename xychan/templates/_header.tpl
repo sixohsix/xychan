@@ -1,2 +1,2 @@
-<link rel="stylesheet" type="text/css" href="/style.css" />
-<link rel="shortcut icon" href="/favicon.ico" type="image/png" />
+<link rel="stylesheet" type="text/css" href="{{url('style')}}" />
+<link rel="shortcut icon" href="{{url('favicon')}}" type="image/png" />

@@ -18,19 +18,22 @@ def get_thread_in_board_or_die(s, board, thread_id):
     return thread
 
 
-@get('/')
+@get('/', name='index')
 def index():
-    return "Go to the first board: <a href='/test/'>go there</a>."
+    return (
+        "Go to the first board: <a href='"
+        + url('board', board_name='test')
+        + "'>go there</a>.")
 
 
-@get('/favicon.ico')
+@get('/favicon.ico', name='favicon')
 @cache_forever
 def favicon():
     response.content_type = "image/png"
     return open('./xychan/static/favicon.png').read()
 
 
-@get('/style.css')
+@get('/style.css', name='style')
 @cache_forever
 def style():
     response.content_type = "text/css"
@@ -56,6 +59,7 @@ def get_thumbnail(image):
     thumb_data = fetch_thumb(image)
     response.content_type = 'image/' + image.split('.')[-1]
     return thumb_data
+
 
 @get('/i_/:image', name='image')
 @cache_forever
