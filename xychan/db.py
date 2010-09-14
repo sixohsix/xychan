@@ -64,6 +64,15 @@ class Thread(Base):
             'threads', order_by=desc(last_post_time)))
 
 
+    @property
+    def short_view_posts(self):
+        posts = self.posts
+        if len(posts) < 5:
+            return posts[:]
+        else:
+            return posts[0:1] + posts[-3:]
+
+
 class Post(Base):
     __tablename__ = 'posts'
 

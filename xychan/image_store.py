@@ -4,8 +4,13 @@ from subprocess import check_output
 
 from .util import random_key, num_encode
 
-IMAGE_DIR = "_images"
-THUMBS_DIR = IMAGE_DIR + os.sep + "thumbs"
+
+def configure_image_dir(d):
+    global IMAGE_DIR, THUMBS_DIR
+    IMAGE_DIR = d
+    THUMBS_DIR = d + os.sep + "thumbs"
+configure_image_dir("_images")
+
 
 def _im_identify_type(fn):
     out = check_output(["identify", "-format", "%m", fn])

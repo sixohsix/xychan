@@ -11,7 +11,7 @@
   %reply_link = url('thread', board_name=board.short_name, thread_id=thread.id)
   <div class="thread">
     %first_post = True
-    %for post in thread.posts[-3:]:
+    %for post in thread.short_view_posts:
       %include _post post=post, reply_link=reply_link, first_post=first_post
       %first_post = False
       %reply_link = None
