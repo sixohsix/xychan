@@ -13,13 +13,26 @@ configure_image_dir("_images")
 
 
 def _im_identify_type(fn):
-    out = check_output(["identify", "-format", "%m", fn])
+    out = check_output(["identify", "-format", "%m\n", fn]).split('\n')[0]
     return out.strip().lower()
 
 
 def _im_make_thumb(fn):
-    check_output(["convert", fn, "-resize", "150x150", "-quality", "60",
-                  THUMBS_DIR + fn[fn.rindex(os.sep):fn.rindex('.')] + '.jpeg'])
+    typ = fn[fn.rindex('.') + 1:]
+    if typ in ('jpg', 'jpeg'):
+        check_output(["convert", fn, "-resize", "150x150", "-quality", "60",
+                      THUMBS_DIR + fn[fn.rindex(os.sep):fn.rindex('.')]
+                      + '.jpeg'])
+    elif typ in ('gif',):
+        check_output(["convert", fn + r"[0]", "-resize", "150x150",
+                      THUMBS_DIR + fn[fn.rindex(os.sep):fn.rindex('.')]
+                      + '.gif'])
+    elif typ in ('png',):
+        check_output(["convert", fn, "-resize", "150x150",
+                      THUMBS_DIR + fn[fn.rindex(os.sep):fn.rindex('.')]
+                      + '.png'])
+    else:
+        raise Exception("Unknown image type")
 
 
 def store_image(image_data):
