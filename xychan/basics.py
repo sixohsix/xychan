@@ -72,7 +72,8 @@ def board(board_name):
     with active_session as s:
         board = get_board_or_die(s, board_name)
         threads = (s.query(Thread)
-                   .filter(Thread.board == board).all())
+                   .filter(Thread.board == board)
+                   .order_by(desc(Thread.id)).all())
         return dict(board=board, threads=threads)
 
 
