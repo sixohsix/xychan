@@ -50,15 +50,14 @@ def create_a_board():
     return dict()
 
 
-@get('/t_/:image')
+@get('/t_/:image', name='thumb')
 @cache_forever
 def get_thumbnail(image):
     thumb_data = fetch_thumb(image)
     response.content_type = 'image/' + image.split('.')[-1]
     return thumb_data
 
-
-@get('/i_/:image')
+@get('/i_/:image', name='image')
 @cache_forever
 def get_image(image):
     image_data = fetch_image(image)
@@ -66,7 +65,7 @@ def get_image(image):
     return image_data
 
 
-@get('/:board_name/')
+@get('/:board_name/', name='board')
 @view('board.tpl')
 def board(board_name):
     with active_session as s:
@@ -77,7 +76,7 @@ def board(board_name):
         return dict(board=board, threads=threads)
 
 
-@post('/:board_name/post')
+@post('/:board_name/post', name="post_thread")
 @view('post_successful.tpl')
 def post_thread(board_name):
     with active_session as s:
@@ -97,7 +96,7 @@ def post_thread(board_name):
         return dict(board=board)
 
 
-@get('/:board_name/:thread_id/')
+@get('/:board_name/:thread_id/', name='thread')
 @view('thread.tpl')
 def thread(board_name, thread_id):
     with active_session as s:
@@ -106,9 +105,9 @@ def thread(board_name, thread_id):
         return dict(board=board, thread=thread)
 
 
-@post('/:board_name/:thread_id/post')
+@post('/:board_name/:thread_id/post', name="post_reply")
 @view('post_successful.tpl')
-def post_thread(board_name, thread_id):
+def post_reply(board_name, thread_id):
     with active_session as s:
         board = get_board_or_die(s, board_name)
         thread = get_thread_in_board_or_die(s, board, thread_id)

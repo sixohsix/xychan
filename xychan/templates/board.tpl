@@ -8,7 +8,7 @@
   %include _post_form.tpl board=board
   <hr />
   %for thread in threads:
-  %reply_link = str(thread.id) + '/'
+  %reply_link = url('thread', board_name=board.short_name, thread_id=thread.id)
   <div class="thread">
     %first_post = True
     %for post in thread.posts[-3:]:

@@ -1,5 +1,5 @@
 <div class="post_form">
-<form action="/{{board.short_name}}/{{thread.id}}/post" method="POST"
+<form action="{{url('post_reply', board_name=board.short_name, thread_id=thread.id)}}" method="POST"
     enctype="multipart/form-data">
   <label for="name">Name</label><br>
   <input type="text" name="poster_name" value=""><br>

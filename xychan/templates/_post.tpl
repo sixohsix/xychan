@@ -11,7 +11,8 @@
       <br>
       <div class="content">
         %if post.image_key:
-        <a href="/i_/{{post.image_key}}"><img class="post_image" src="/t_/{{post.image_key}}"></a>
+        <a href="{{url('image', image=post.image_key)}}">
+<img class="post_image" src="{{url('thumb', image=post.image_key)}}"></a>
         %end
         {{post.content}}
       </div>

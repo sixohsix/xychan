@@ -1,6 +1,6 @@
 
 from bottle import (
-    route, error, HTTPError, get, post, request, response, view
+    route, error, HTTPError, get, post, request, response, view, url,
     )
 
 from .base62 import *
@@ -21,3 +21,5 @@ def cache_forever(func):
 
 from .image_store import *
 from .db import *
+
+__builtins__['url'] = url
