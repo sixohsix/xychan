@@ -16,8 +16,8 @@
       <div class="poster_name">{{post.poster_name}}</div>
       <div class="post_id">No. {{post.id}}</div>
       %if first_post:
-      <div class="reply_link">
-        [<a href="/{{board.short_name}}/{{thread.id}}/">Reply</a>]
+      <div class="reply_link button">
+        <a href="/{{board.short_name}}/{{thread.id}}/">Reply</a>
       </div>
       %end
       <br>
