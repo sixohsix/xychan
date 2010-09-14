@@ -76,6 +76,7 @@ def board(board_name):
         board = get_board_or_die(s, board_name)
         threads = (s.query(Thread)
                    .filter(Thread.board == board)
+                   .order_by(desc(Thread.last_post_time))
                    .all())
         return dict(board=board, threads=threads)
 
