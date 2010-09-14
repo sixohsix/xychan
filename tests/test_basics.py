@@ -3,8 +3,10 @@ from bottle import debug
 from paste.fixture import TestApp
 
 from xychan import app
+from xychan.db import configure_db
 
 debug(True)
+configure_db('sqlite:///:memory:', echo=True)
 
 app = TestApp(app)
 

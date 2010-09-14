@@ -9,16 +9,10 @@ from sqlalchemy.orm import sessionmaker, relationship, backref
 from sqlalchemy.sql.expression import desc
 
 
-try:
-    configured
-except NameError:
-    #engine = create_engine('sqlite:///:memory:', echo=True)
-    engine = create_engine('sqlite:///test.db', echo=True)
-    metadata = MetaData()
-    metadata.bind = engine
-    Session = sessionmaker(bind=engine)
-    Base = declarative_base(metadata=metadata)
-    configured = True
+metadata = MetaData()
+Session = sessionmaker()
+Base = declarative_base(metadata=metadata)
+configured = True
 
 
 class SessionContextMgr(object):
@@ -85,4 +79,8 @@ class Post(Base):
     thread = relationship(Thread, backref=backref('posts', order_by=id))
 
 
-metadata.create_all()
+def configure_db(db_uri, echo=False):
+    engine = create_engine(db_uri, echo=echo)
+    metadata.bind = engine
+    Session.bind = engine
+    metadata.create_all()
