@@ -100,7 +100,7 @@ class User(Base):
 
     def _calc_password(self, password):
         sig = sha()
-        sig.update(str(self.id))
+        sig.update(str(self.username))
         sig.update('saltysalt8828282')
         sig.update(password)
         return sig.hexdigest()

@@ -79,15 +79,21 @@ def create_a_board():
     return dict()
 
 
-@get('/login')
+@get('/login', name='login')
 @view('login.tpl')
 def login():
     return dict()
 
 
 @post('/log_me_in_please', name='login_submit')
+@view('message.tpl')
 def login_submit():
-    return dict()
+    user = (s.query(User).filter(User.username == request.POST.get('username'))
+            .first())
+    if (not user) or (not user.verify_password(request.POST.get('password'))):
+        return dict(message="Nope, that's not it", redirect=url('login'))
+    else:
+        return dict(message="You are now logged in", redirect=url('index'))
 
 
 @get('/t_/:image', name='thumb')

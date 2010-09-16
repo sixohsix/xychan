@@ -10,3 +10,4 @@ def test_login():
     r.form.username = 'admin'
     r.form.password = 'adminadmin1'
     r = r.form.submit()
+    assert "You are now logged in" in r
