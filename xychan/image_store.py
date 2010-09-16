@@ -1,6 +1,7 @@
 
 import os
 from subprocess import check_output
+from sha import sha
 
 from .util import random_key, num_encode
 
@@ -36,7 +37,9 @@ def _im_make_thumb(fn):
 
 
 def store_image(image_data):
-    key = num_encode(random_key())
+    sig = sha()
+    sig.update(image_data)
+    key = num_encode(int(sig.hexdigest(), 16))
     fn = IMAGE_DIR + os.sep + key
     open(fn, 'w').write(image_data)
     typ = _im_identify_type(fn)
