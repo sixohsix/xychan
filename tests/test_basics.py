@@ -3,7 +3,7 @@ from bottle import debug
 from paste.fixture import TestApp
 
 from xychan import app
-from xychan.db import configure_db, Post, Thread, Board, active_session
+from xychan.db import configure_db, Post, Thread, Board, active_session, User
 
 debug(True)
 configure_db('sqlite:///:memory:', echo=False)
@@ -15,6 +15,7 @@ def setUp():
         s.query(Post).delete()
         s.query(Thread).delete()
         s.query(Board).delete()
+        s.query(User).delete()
     app.get('/setup')
 
 

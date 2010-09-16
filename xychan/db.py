@@ -1,4 +1,6 @@
 
+from sha import sha
+
 from sqlalchemy import (
     create_engine,
     Table, Column, Integer, String, MetaData, ForeignKey, DateTime,
@@ -12,7 +14,6 @@ from sqlalchemy.sql.expression import desc
 metadata = MetaData()
 Session = sessionmaker()
 Base = declarative_base(metadata=metadata)
-configured = True
 
 
 class SessionContextMgr(object):
@@ -88,6 +89,33 @@ class Post(Base):
     image_key = Column(String)
 
     thread = relationship(Thread, backref=backref('posts', order_by=id))
+
+
+class User(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True)
+    username = Column(String, nullable=False, unique=True)
+    password_hash = Column(String, nullable=False)
+
+    def _calc_password(self, password):
+        sig = sha()
+        sig.update(str(self.id))
+        sig.update('saltysalt8828282')
+        sig.update(password)
+        return sig.hexdigest()
+
+
+    def _get_password(self):
+        raise Exception("Write only")
+    def _set_password(self, v):
+        self.password_hash = self._calc_password(v)
+        return locals()
+    password = property(_get_password, _set_password)
+
+
+    def verify_password(self, password):
+        return self.password_hash == self._calc_password(password)
 
 
 def configure_db(db_uri, echo=False):

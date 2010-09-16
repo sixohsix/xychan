@@ -73,6 +73,20 @@ def create_a_board():
         s.add(Post(
                 thread=t, content="This is a post", poster_ip='1.2.3.4',
                 poster_name="poster_name", subject="subject"))
+        u = User(username='admin')
+        u.password = 'adminadmin1'
+        s.add(u)
+    return dict()
+
+
+@get('/login')
+@view('login.tpl')
+def login():
+    return dict()
+
+
+@post('/log_me_in_please', name='login_submit')
+def login_submit():
     return dict()
 
 
