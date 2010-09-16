@@ -4,9 +4,9 @@
   <title>Login</title>
 </head>
 <body>
-  %if auth_cookie:
+  %if c.user:
   <h1>Logout</h1>
-    <p>You are logged in as {{auth_cookie.user.username}}.</p>
+    <p>You are logged in as {{c.user.username}}.</p>
     <form name="logout" method="POST" action="{{url('logout_submit')}}">
       <input type="submit" class="button" name="logout" value="Logout!">
     </form>

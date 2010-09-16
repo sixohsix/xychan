@@ -94,10 +94,7 @@ def create_a_board():
 @get('/login', name='login')
 @view('login.tpl')
 def login():
-    auth_cookie = None
-    if cookie_is_encoded(request.COOKIES.get(COOKIE_KEY)):
-        auth_cookie = request.get_cookie(COOKIE_KEY, COOKIE_SECRET)
-    return dict(auth_cookie=auth_cookie)
+    return dict()
 
 
 @post('/log_me_in_please', name='login_submit')

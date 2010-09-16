@@ -3,7 +3,7 @@ import os
 from subprocess import check_output
 from sha import sha
 
-from .util import random_key, num_encode
+from .util import num_encode
 
 
 def configure_image_dir(d):
