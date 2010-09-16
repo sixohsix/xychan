@@ -1,6 +1,7 @@
 
 from bottle import (
     route, error, HTTPError, get, post, request, response, view, url,
+    cookie_is_encoded,
     )
 
 from .base62 import *
