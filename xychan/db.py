@@ -22,6 +22,7 @@ class SessionContextMgr(object):
     def __enter__(self):
         if not self.lvl:
             self.session = Session()
+            __builtins__['s'] = self.session
         self.lvl += 1
         return self.session
 
@@ -33,6 +34,7 @@ class SessionContextMgr(object):
             else:
                 self.session.commit()
             self.session = None
+            del __builtins__['s']
 
 active_session = SessionContextMgr()
 

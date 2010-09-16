@@ -125,7 +125,8 @@ def post_thread(board_name):
         return dict(board=board)
 
 
-@get('/:board_name/:thread_id/', name='thread')
+@get('/:board_name/:thread_id#[0-9]+#/', name='thread')
+@get('/:board_name/:thread_id#[0-9]+#')
 @view('thread.tpl')
 def thread(board_name, thread_id):
     with active_session as s:
@@ -152,6 +153,9 @@ def post_reply(board_name, thread_id):
                    poster_ip=request.get('REMOTE_ADDR', '0.0.0.0'),
                    image_key=image_key))
         return dict(board=board)
+
+
+get('/:board_name')(board)
 
 
 @error(404)
