@@ -3,11 +3,12 @@
       <div class="poster_name">{{post.poster_name}}</div>
       <div class="post_id"><a name="{{post.id}}">No. {{post.id}}</a></div>
       <div class="reply_link">
-        <a class="button-red" href="#">☢</a>
-      %if reply_link:
         %if c.user:
-          <a class="button-red" href="#">♺</a>
+          <a class="button-red" href="#" title="Pin thread">☝</a>
+          <a class="button-red" href="#" title="Trash post or thread">♺</a>
         %end
+        <a class="button-red" href="#" title="Report post as offensive">⚑</a>
+      %if reply_link:
         <a class="button" href="{{reply_link}}">Reply</a>
       %end
       </div>
