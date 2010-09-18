@@ -122,6 +122,14 @@ class User(Base):
         return self.password_hash == self._calc_password(password)
 
 
+class VisitorPrefs(Base):
+    __tablename__ = 'visitor_prefs'
+
+    id = Column(Integer, primary_key=True)
+    cookie_uuid = Column(String, unique=True, nullable=False)
+    poster_name = Column(String, nullable=False, default='')
+
+
 def configure_db(db_uri, echo=False):
     engine = create_engine(db_uri, echo=echo)
     metadata.bind = engine

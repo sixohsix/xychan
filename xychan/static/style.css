@@ -61,6 +61,9 @@ body {
   font-family: Helvetica,sans-serif;
   margin: 12pt;
 }
+.post_form input {
+  margin-bottom: 8pt;
+}
 h1, h2, h3, h4, h5, h6 {
   font-family: "Helvetica Neue",Helvetica,sans-serif;
   margin-bottom: 1em;

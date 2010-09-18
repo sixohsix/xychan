@@ -8,14 +8,25 @@ from .db import DbSessionMiddleware
 
 class Context(object):
 
+    def _fetch_cookie(self, key, secret):
+        cookie = None
+        if cookie_is_encoded(request.COOKIES.get(key, '')):
+            cookie = request.get_cookie(key, secret)
+        return cookie
+
     @property
     def user(self):
-        auth_cookie = None
-        if cookie_is_encoded(request.COOKIES.get(COOKIE_KEY, '')):
-            auth_cookie = request.get_cookie(COOKIE_KEY, COOKIE_SECRET)
+        auth_cookie = self._fetch_cookie(COOKIE_KEY, COOKIE_SECRET)
+        if auth_cookie:
             return auth_cookie.user
         else:
             return None
+
+    @property
+    def visitor_prefs(self):
+        cookie = self._fetch_cookie(PREFS_COOKIE_KEY, PREFS_COOKIE_SECRET)
+        if cookie:
+            return cookie.visitor_prefs
 
 
 def context_middleware(wrapped_app):

@@ -4,7 +4,7 @@
       <div class="post_id"><a name="{{post.id}}">No. {{post.id}}</a></div>
       <div class="reply_link">
         %if c.user:
-          <a class="button-red" href="#" title="Pin thread">☝</a>
+          <!-- <a class="button-red" href="#" title="Pin thread">☝</a> -->
           <form name="mod_trash"
             action="{{url("trash_post", post_id=post.id)}}"
             method="POST">

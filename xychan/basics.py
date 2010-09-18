@@ -1,6 +1,7 @@
 
 import re
 import cgi
+from uuid import uuid4
 
 from .util import *
 
@@ -41,16 +42,17 @@ def sanitize_content(s, content):
     return '<br>\n'.join(lines)
 
 
-COOKIE_KEY = 'asdf82jfooapAOOOOOaf'
-COOKIE_SECRET = 'nasdf423jndsfAJAfa'
+PREFS_COOKIE_KEY = 'jkasdfa99a9a9'
+PREFS_COOKIE_SECRET = 'nakNJKNJANoi*8f**'
 
-class AuthCookie(object):
-    def __init__(self, user_id):
-        self.user_id = user_id
+class VisitorPrefsCookie(object):
+    def __init__(self, cookie_uuid):
+        self.cookie_uuid = cookie_uuid
 
     @property
-    def user(self):
-        return s.query(User).filter(User.id == self.user_id).first()
+    def visitor_prefs(self):
+        return (s.query(VisitorPrefs)
+                .filter(VisitorPrefs.cookie_uuid == self.cookie_uuid).first())
 
 
 @get('/', name='index')
@@ -125,6 +127,17 @@ def board(board_name):
         return dict(board=board, threads=threads)
 
 
+def remember_poster_name(poster_name):
+    vp = c.visitor_prefs
+    if not vp:
+        vp = VisitorPrefs(cookie_uuid=str(uuid4()))
+        s.add(vp)
+        response.set_cookie(PREFS_COOKIE_KEY,
+                            VisitorPrefsCookie(vp.cookie_uuid),
+                            PREFS_COOKIE_SECRET)
+    vp.poster_name = poster_name
+
+
 @post('/:board_name/post', name="post_thread")
 @view('post_successful.tpl')
 def post_thread(board_name):
@@ -136,12 +149,14 @@ def post_thread(board_name):
             image_key = store_image(img.value)
         thread = Thread(board=board, last_post_time=func.now())
         s.add(thread)
+        poster_name = request.POST.get('poster_name', '')
         s.add(Post(thread=thread,
                    content=sanitize_content(s, request.POST.get('content', '')),
-                   poster_name=request.POST.get('poster_name', ''),
+                   poster_name=poster_name,
                    subject=request.POST.get('subject', ''),
                    poster_ip=request.get('REMOTE_ADDR', '0.0.0.0'),
                    image_key=image_key))
+        remember_poster_name(poster_name)
         return dict(board=board)
 
 
@@ -166,12 +181,14 @@ def post_reply(board_name, thread_id):
         if img is not None: # LOL WAT
             image_key = store_image(img.value)
         thread.last_post_time = func.now()
+        poster_name = request.POST.get('poster_name', '')
         s.add(Post(thread=thread,
                    content=sanitize_content(s, request.POST.get('content', '')),
-                   poster_name=request.POST.get('poster_name', ''),
+                   poster_name=poster_name,
                    subject=request.POST.get('subject', ''),
                    poster_ip=request.get('REMOTE_ADDR', '0.0.0.0'),
                    image_key=image_key))
+        remember_poster_name(poster_name)
         return dict(board=board)
 
 
