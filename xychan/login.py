@@ -1,18 +1,6 @@
 
 from .util import *
 
-COOKIE_KEY = 'asdf82jfooapAOOOOOaf'
-COOKIE_SECRET = 'nasdf423jndsfAJAfa'
-
-class AuthCookie(object):
-    def __init__(self, user_id):
-        self.user_id = user_id
-
-    @property
-    def user(self):
-        return s.query(User).filter(User.id == self.user_id).first()
-
-
 @get('/login', name='login')
 @view('login.tpl')
 def login():

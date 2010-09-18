@@ -1,5 +1,5 @@
 <div class="post_form">
-<form action="{{url('post_thread', board_name=board.short_name)}}" method="POST"
+<form action="{{post_action}}" method="POST"
     enctype="multipart/form-data">
   <label for="name">Name</label><br>
   <input type="text" name="poster_name" value="{{c.visitor_prefs.poster_name if c.visitor_prefs else ""}}"><br>

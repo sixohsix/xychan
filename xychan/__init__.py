@@ -4,19 +4,22 @@ TEMPLATE_PATH.insert(0, './xychan/templates')
 
 from .basics import *
 from .db import DbSessionMiddleware
+from .cookies import *
 
 
 class Context(object):
 
-    def _fetch_cookie(self, key, secret):
+    def _fetch_cookie(self, cookie_def):
         cookie = None
-        if cookie_is_encoded(request.COOKIES.get(key, '')):
-            cookie = request.get_cookie(key, secret)
+        if cookie_is_encoded(request.COOKIES.get(cookie_def.cookie_key, '')):
+            cookie = request.get_cookie(
+                cookie_def.cookie_key,
+                cookie_def.cookie_secret)
         return cookie
 
     @property
     def user(self):
-        auth_cookie = self._fetch_cookie(COOKIE_KEY, COOKIE_SECRET)
+        auth_cookie = self._fetch_cookie(AuthCookie)
         if auth_cookie:
             return auth_cookie.user
         else:
@@ -24,7 +27,7 @@ class Context(object):
 
     @property
     def visitor_prefs(self):
-        cookie = self._fetch_cookie(PREFS_COOKIE_KEY, PREFS_COOKIE_SECRET)
+        cookie = self._fetch_cookie(VisitorPrefsCookie)
         if cookie:
             return cookie.visitor_prefs
 

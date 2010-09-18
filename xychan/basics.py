@@ -42,19 +42,6 @@ def sanitize_content(s, content):
     return '<br>\n'.join(lines)
 
 
-PREFS_COOKIE_KEY = 'jkasdfa99a9a9'
-PREFS_COOKIE_SECRET = 'nakNJKNJANoi*8f**'
-
-class VisitorPrefsCookie(object):
-    def __init__(self, cookie_uuid):
-        self.cookie_uuid = cookie_uuid
-
-    @property
-    def visitor_prefs(self):
-        return (s.query(VisitorPrefs)
-                .filter(VisitorPrefs.cookie_uuid == self.cookie_uuid).first())
-
-
 @get('/', name='index')
 def index():
     return (
@@ -132,9 +119,7 @@ def remember_poster_name(poster_name):
     if not vp:
         vp = VisitorPrefs(cookie_uuid=str(uuid4()))
         s.add(vp)
-        response.set_cookie(PREFS_COOKIE_KEY,
-                            VisitorPrefsCookie(vp.cookie_uuid),
-                            PREFS_COOKIE_SECRET)
+        set_cookie(VisitorPrefsCookie(vp.cookie_uuid))
     vp.poster_name = poster_name
 
 

@@ -17,5 +17,6 @@ def cache_forever(func):
 
 from .image_store import *
 from .db import *
+from .cookies import *
 
 __builtins__['url'] = url

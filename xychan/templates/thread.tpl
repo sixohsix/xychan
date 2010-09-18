@@ -5,7 +5,7 @@
 </head>
 <body>
   <h1>{{board.short_name}} - Thread No. {{thread.id}}</h1>
-  %include _thread_post_form.tpl board=board, thread=thread
+  %include _post_form.tpl post_action=url("post_reply", board_name=board.short_name, thread_id=thread.id)
   <hr />
   <div class="thread">
     %first_post = True
