@@ -11,6 +11,8 @@ def trash_post(post_id):
             thread = post.thread
             [s.delete(p) for p in thread.posts]
             s.delete(thread)
+        else:
+            s.delete(post)
     else:
         redirect = url("index")
     return dict(message="Shit's trashed, yo", redirect=redirect)

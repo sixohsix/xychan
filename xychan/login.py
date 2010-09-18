@@ -15,14 +15,14 @@ def login_submit():
     if (not user) or (not user.verify_password(request.POST.get('password'))):
         return dict(message="Nope, that's not it", redirect=url('login'))
     else:
-        response.set_cookie(COOKIE_KEY, AuthCookie(user.id), COOKIE_SECRET)
+        set_cookie(AuthCookie(user.id))
         return dict(message="You are now logged in", redirect=url('index'))
 
 
 @post('/log_me_out_please', name='logout_submit')
 @view('message.tpl')
 def logout_submit():
-    response.set_cookie(COOKIE_KEY, '')
+    wipe_cookie(AuthCookie)
     return dict(message="Seeya later", redirect=url('index'))
 
 
