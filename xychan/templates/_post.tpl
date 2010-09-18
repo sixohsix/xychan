@@ -5,7 +5,12 @@
       <div class="reply_link">
         %if c.user:
           <a class="button-red" href="#" title="Pin thread">☝</a>
-          <a class="button-red" href="#" title="Trash post or thread">♺</a>
+          <form name="mod_trash"
+            action="{{url("trash_post", post_id=post.id)}}"
+            method="POST">
+            <input type="submit" class="button-red"
+              title="Trash {{"thread" if first_post else "post"}}"
+              value="♺"></form>
         %end
         <a class="button-red" href="#" title="Report post as offensive">⚑</a>
       %if reply_link:

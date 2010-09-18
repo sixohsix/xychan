@@ -90,6 +90,10 @@ class Post(Base):
 
     thread = relationship(Thread, backref=backref('posts', order_by=id))
 
+    @property
+    def is_first(self):
+        return self == self.thread.posts[0]
+
 
 class User(Base):
     __tablename__ = 'users'
