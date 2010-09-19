@@ -10,15 +10,6 @@ find _compactify_build | grep ~$ | xargs rm
 find _compactify_build | grep \\.pyc$ | xargs rm
 find _compactify_build | grep \\.pyo$ | xargs rm
 
-cat > _compactify_build/__main__.py <<EOF
-
-if __name__=='__main__':
-    from xychan import app
-    from wsgiref.handlers import CGIHandler
-    CGIHandler().run(app)
-
-EOF
-
 python -OO -m compileall _compactify_build
 find _compactify_build | grep \\.py$ | xargs rm
 cd _compactify_build

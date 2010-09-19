@@ -1,0 +1,13 @@
+
+import sys, os
+INTERP = "/home/iamstupid/py27/bin/python"
+if sys.executable != INTERP: os.execl(INTERP, INTERP, *['-O'] + sys.argv)
+
+sys.path.insert(0, '/home/iamstupid/xychan-beta.mike.verdone.ca/xychan')
+
+from xychan import app
+
+app.configure_db("sqlite:////home/iamstupid/xychan-beta.mike.verdone.ca/test.db")
+app.configure_image_dir("/home/iamstupid/xychan-beta.mike.verdone.ca/_images")
+
+application = app

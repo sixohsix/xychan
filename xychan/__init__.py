@@ -3,7 +3,8 @@ from bottle import TEMPLATE_PATH, default_app, request, cookie_is_encoded
 TEMPLATE_PATH.insert(0, './xychan/templates')
 
 from .basics import *
-from .db import DbSessionMiddleware
+from .db import DbSessionMiddleware, configure_db
+from .image_store import configure_image_dir
 from .cookies import *
 
 
@@ -45,5 +46,7 @@ def context_middleware(wrapped_app):
 app = context_middleware(
     DbSessionMiddleware(
         default_app()))
+app.configure_image_dir = configure_image_dir
+app.configure_db = configure_db
 
 __all__ = ['app']
