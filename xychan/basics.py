@@ -174,7 +174,7 @@ def static(file):
     mime_type, encoding = guess_type(file)
     if mime_type:
         response.content_type = mime_type
-    return open('./xychan/static/' + file, 'rb').read()
+    return open(STATIC_PATH + os.sep + file, 'rb').read()
 
 
 @error(404)

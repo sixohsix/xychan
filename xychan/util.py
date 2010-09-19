@@ -1,4 +1,6 @@
 
+import os
+
 from bottle import (
     route, error, HTTPError, get, post, request, response, view, url,
     cookie_is_encoded,
@@ -30,5 +32,7 @@ def get_uni(key):
 from .image_store import *
 from .db import *
 from .cookies import *
+
+from . import STATIC_PATH
 
 __builtins__['url'] = url

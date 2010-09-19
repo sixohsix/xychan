@@ -1,6 +1,10 @@
 
 from bottle import TEMPLATE_PATH, default_app, request, cookie_is_encoded
-TEMPLATE_PATH.insert(0, './xychan/templates')
+import os
+
+STATIC_PATH = __path__[0] + os.sep + 'static'
+
+TEMPLATE_PATH.insert(0, __path__[0] + os.sep + 'templates')
 
 from .basics import *
 from .db import DbSessionMiddleware, configure_db
