@@ -32,27 +32,19 @@ q:before, q:after {
 	content: '';
 	content: none;
 }
-
-/* remember to define focus styles! */
 :focus {
 	outline: 0;
 }
-
-/* remember to highlight inserts somehow! */
 ins {
 	text-decoration: none;
 }
 del {
 	text-decoration: line-through;
 }
-
-/* tables still need 'cellspacing="0"' in the markup */
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-
-
 
 
 
@@ -93,15 +85,19 @@ h1.post_ok {
   min-width: 360pt;
 }
 .post.first {
-  margin-left: 12pt;
+  background: inherit;
+  margin: 12pt;
+  display: block;
 }
 .post .subject,
   .post .poster_name,
   .post .post_id,
   .post .reply_link,
-  .post .reply_link form {
+  .post .reply_link form,
+  .post .post_ip {
   display: inline-block;
   margin-right: 1em;
+  font-size: 85%;
 }
 .post .reply_link form {
   margin: 0;
@@ -118,10 +114,14 @@ h1.post_ok {
 .post .content {
   padding: 12pt;
 }
-.post .post_image {
+.post .p_img {
   float: left;
   padding-right: 12pt;
 }
+.post .p_con {
+  float:left;
+}
+.post .foot { clear:both; }
 
 .button, .button-red, .button-lite  {
 
@@ -166,7 +166,8 @@ h1.post_ok {
   height: 96pt;
 }
 
-hr { clear:both; margin-top: 12pt; margin-bottom: 12pt; }
+hr { clear:both; margin-top: 12pt; margin-bottom: 12pt;
+  border:none; border-top: 2px solid #ddd;}
 
 .button-red {
    border-top: 1px solid #ccc;
@@ -201,4 +202,5 @@ hr { clear:both; margin-top: 12pt; margin-bottom: 12pt; }
 
 .footer {
   margin-top: 12pt;
+  font-size: 80%;
 }
