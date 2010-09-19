@@ -1,26 +1,33 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.0'
+version = '0.1'
 
 setup(name='xychan',
       version=version,
-      description="",
-      long_description="""\
-""",
-      classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
-      keywords='',
+      description="A 'chan-style' web message board similar to Wakaba",
+      long_description=open('README.md', 'r').read()
+      classifiers=[
+        "Development Status :: 4 - Beta",
+        "Environment :: Web Environment",
+        "License :: OSI Approved :: GNU General Public License (GPL)",
+        "Natural Language :: English",
+        "Operating System :: POSIX",
+        "Programming Language :: Python :: 2.7",
+        "Topic :: Communications :: BBS",
+        "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+        ], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+      keywords='4chan, chan, message board, Wakaba',
       author='Mike Verdone',
       author_email='mike.verdone@gmail.com',
       url='http://mike.verdone.ca/xychan',
-      license='',
+      license='GNU General Public License v3 (GPL)',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
-      zip_safe=True,
+      zip_safe=False,
       install_requires=[
           # -*- Extra requirements: -*-
           'bottle',
-          'decorator',
           'sqlalchemy',
       ],
       entry_points="""
