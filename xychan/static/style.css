@@ -204,3 +204,27 @@ hr { clear:both; margin-top: 12pt; margin-bottom: 12pt;
   margin-top: 12pt;
   font-size: 80%;
 }
+
+@media speech {
+  .post.first:before {
+    content: "Thread ";
+  }
+  .post:before {
+    content: "Reply ";
+  }
+  .post .poster_name:before {
+    content: "by poster name: ";
+  }
+  .post .subject:before {
+    content: "with subject: ";
+  }
+  .post .p_img:before {
+    content: "User posted image.";
+  }
+  .post .post_image {
+    display: none;
+  }
+  .post .p_con:before {
+    content: "Message: "
+  }
+}
