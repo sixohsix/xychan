@@ -15,5 +15,6 @@
     </div>
     %end
   </div>
+  %include _footer.tpl
 </body>
 </html>

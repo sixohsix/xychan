@@ -15,6 +15,14 @@ def cache_forever(func):
     return _cache_forever
 
 
+def admin_only(func):
+    def _admin_only(*args, **kwargs):
+        if not c.user:
+            raise HTTPError(403, 'Forbidden')
+        return func(*args, **kwargs)
+    return _admin_only
+
+
 from .image_store import *
 from .db import *
 from .cookies import *

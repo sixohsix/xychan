@@ -2,6 +2,7 @@
 import re
 import cgi
 from uuid import uuid4
+from mimetypes import guess_type
 
 from .util import *
 
@@ -43,11 +44,10 @@ def sanitize_content(s, content):
 
 
 @get('/', name='index')
+@view('index.tpl')
 def index():
-    return (
-        "Go to the first board: <a href='"
-        + url('board', board_name='test')
-        + "'>go there</a>.")
+    boards = s.query(Board).order_by(Board.short_name).all()
+    return dict(boards=boards)
 
 
 @get('/favicon.ico', name='favicon')
@@ -57,11 +57,6 @@ def favicon():
     return open('./xychan/static/favicon.png').read()
 
 
-@get('/style.css', name='style')
-@cache_forever
-def style():
-    response.content_type = "text/css"
-    return open('./xychan/static/style.css').read()
 
 
 @get('/setup')
@@ -177,7 +172,18 @@ def post_reply(board_name, thread_id):
         return dict(board=board)
 
 
-get('/:board_name')(board)
+get('/:board_name#[A-z0-9_-]+#')(board)
+
+
+@get(r'/:file#.+\..+#', name='static')
+@cache_forever
+def static(file):
+    if file.split('.')[-1] in ('py', 'pyo', 'pyc'):
+        raise HTTPError(404, "Not found")
+    mime_type, encoding = guess_type(file)
+    if mime_type:
+        response.content_type = mime_type
+    return open('./xychan/static/' + file, 'rb').read()
 
 
 @error(404)

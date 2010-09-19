@@ -18,5 +18,6 @@
   </div>
   <hr>
   %end
+  %include _footer.tpl
 </body>
 </html>
