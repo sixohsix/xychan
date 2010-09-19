@@ -6,7 +6,7 @@ version = '0.1'
 setup(name='xychan',
       version=version,
       description="A 'chan-style' web message board similar to Wakaba",
-      long_description=open('README.md', 'r').read()
+      long_description=open('README.md', 'r').read(),
       classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Web Environment",

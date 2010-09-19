@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7
+#!/usr/bin/python2.7 -O
 
 # Run xychan as a CGI script.
 # Ensure the path to the python2.7 binary above is correct.
