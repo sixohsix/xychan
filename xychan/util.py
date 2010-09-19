@@ -23,6 +23,10 @@ def admin_only(func):
     return _admin_only
 
 
+def get_uni(key):
+    return request.forms.get(key, '').decode('utf8')
+
+
 from .image_store import *
 from .db import *
 from .cookies import *

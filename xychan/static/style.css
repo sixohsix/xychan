@@ -71,6 +71,13 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-size: 200%;
 }
+li {
+  list-style-position: inside;
+  padding-left: 24pt;
+}
+ul li {
+  list-style-type: circle;
+}
 h1.post_ok {
   position: absolute;
   top: 40%;
@@ -190,4 +197,8 @@ hr { clear:both; margin-top: 12pt; margin-bottom: 12pt; }
   width: auto;
   padding-left: 12pt;
   padding-right: 12pt;
+}
+
+.footer {
+  margin-top: 12pt;
 }

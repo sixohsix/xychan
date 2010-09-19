@@ -8,7 +8,7 @@
   <ul>
   %for board in boards:
     <li><a href="{{url('board', board_name=board.short_name)}}">
-      {{board.short_name}}</li>
+      {{board.short_name}}</a></li>
   %end
   </ul>
   %include _footer.tpl

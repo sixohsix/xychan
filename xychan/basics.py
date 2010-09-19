@@ -50,15 +50,6 @@ def index():
     return dict(boards=boards)
 
 
-@get('/favicon.ico', name='favicon')
-@cache_forever
-def favicon():
-    response.content_type = "image/png"
-    return open('./xychan/static/favicon.png').read()
-
-
-
-
 @get('/setup')
 def create_a_board():
     with active_session as s:
@@ -129,11 +120,11 @@ def post_thread(board_name):
             image_key = store_image(img.value)
         thread = Thread(board=board, last_post_time=func.now())
         s.add(thread)
-        poster_name = request.POST.get('poster_name', '')
+        poster_name = get_uni('poster_name')
         s.add(Post(thread=thread,
-                   content=sanitize_content(s, request.POST.get('content', '')),
+                   content=sanitize_content(s, get_uni('content')),
                    poster_name=poster_name,
-                   subject=request.POST.get('subject', ''),
+                   subject=get_uni('subject'),
                    poster_ip=request.get('REMOTE_ADDR', '0.0.0.0'),
                    image_key=image_key))
         remember_poster_name(poster_name)
@@ -161,11 +152,11 @@ def post_reply(board_name, thread_id):
         if img is not None: # LOL WAT
             image_key = store_image(img.value)
         thread.last_post_time = func.now()
-        poster_name = request.POST.get('poster_name', '')
+        poster_name = get_uni('poster_name')
         s.add(Post(thread=thread,
-                   content=sanitize_content(s, request.POST.get('content', '')),
+                   content=sanitize_content(s, get_uni('content')),
                    poster_name=poster_name,
-                   subject=request.POST.get('subject', ''),
+                   subject=get_uni('subject'),
                    poster_ip=request.get('REMOTE_ADDR', '0.0.0.0'),
                    image_key=image_key))
         remember_poster_name(poster_name)
