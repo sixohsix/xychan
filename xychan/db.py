@@ -1,4 +1,6 @@
 
+from __future__ import with_statement
+
 from sha import sha
 
 from sqlalchemy import (

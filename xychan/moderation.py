@@ -1,5 +1,5 @@
 
-from .util import *
+from util import *
 
 @post("/mod/trash_post/:post_id#[0-9]+#", name="trash_post")
 @view("message.tpl")

@@ -6,7 +6,7 @@ from bottle import (
     cookie_is_encoded,
     )
 
-from .base62 import *
+from base62 import *
 
 
 def cache_forever(func):
@@ -29,9 +29,9 @@ def get_uni(key):
     return request.forms.get(key, '').decode('utf8')
 
 
-from .image_store import *
-from .db import *
-from .cookies import *
+from image_store import *
+from db import *
+from cookies import *
 
 from . import STATIC_PATH
 

@@ -1,6 +1,15 @@
 
 import os
-from subprocess import check_output
+try:
+    from subprocess import check_output
+except ImportError:
+    from commands import getstatusoutput
+    def check_output(cmdlist):
+        cmd = ' '.join(cmdlist)
+        status, output = getstatusoutput(cmd)
+        if status:
+            raise Exception("Command [%s] failed." % cmd)
+
 from sha import sha
 
 from .util import num_encode

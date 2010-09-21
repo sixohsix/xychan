@@ -27,8 +27,8 @@ setup(name='xychan',
       zip_safe=False,
       install_requires=[
           # -*- Extra requirements: -*-
-          'bottle',
-          'sqlalchemy',
+          'bottle>=0.8.3',
+          'sqlalchemy>=0.6',
       ],
       entry_points="""
       # -*- Entry points: -*-

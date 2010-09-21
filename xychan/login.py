@@ -1,5 +1,5 @@
 
-from .util import *
+from util import *
 
 @get('/login', name='login')
 @view('login.tpl')
