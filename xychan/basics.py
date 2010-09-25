@@ -110,13 +110,17 @@ def remember_poster_name(poster_name):
 
 
 @post('/:board_name/post', name="post_thread")
-@view('post_successful.tpl')
+@view('message.tpl')
 def post_thread(board_name):
     board = get_board_or_die(s, board_name)
     image_key = None
     img = request.files.get('image')
     if img is not None: # LOL WAT
         image_key = store_image(img.value)
+    if not (image_key or get_uni('content')):
+        return dict(
+            message="No, you must provide an image or some text in your post",
+            redirect=url('board', board_name=board.short_name))
     thread = Thread(board=board, last_post_time=func.now())
     s.add(thread)
     poster_name = get_uni('poster_name')
@@ -127,7 +131,8 @@ def post_thread(board_name):
                poster_ip=request.get('REMOTE_ADDR', '0.0.0.0'),
                image_key=image_key))
     remember_poster_name(poster_name)
-    return dict(board=board)
+    return dict(message="Post successful",
+                redirect=url('board', board_name=board.short_name))
 
 
 @get('/:board_name/:thread_id#[0-9]+#/', name='thread')
@@ -140,7 +145,7 @@ def thread(board_name, thread_id):
 
 
 @post('/:board_name/:thread_id/post', name="post_reply")
-@view('post_successful.tpl')
+@view('message.tpl')
 def post_reply(board_name, thread_id):
     board = get_board_or_die(s, board_name)
     thread = get_thread_in_board_or_die(s, board, thread_id)
@@ -148,6 +153,11 @@ def post_reply(board_name, thread_id):
     img = request.files.get('image')
     if img is not None: # LOL WAT
         image_key = store_image(img.value)
+    if not (image_key or get_uni('content')):
+        return dict(
+            message="No, you must provide an image or some text in your post",
+            redirect=url('thread', board_name=board.short_name,
+                         thread_id=thread.id))
     thread.last_post_time = func.now()
     poster_name = get_uni('poster_name')
     s.add(Post(thread=thread,
@@ -157,10 +167,11 @@ def post_reply(board_name, thread_id):
                poster_ip=request.get('REMOTE_ADDR', '0.0.0.0'),
                image_key=image_key))
     remember_poster_name(poster_name)
-    return dict(board=board)
+    return dict(message="Post successful",
+                redirect=url('board', board_name=board.short_name))
 
 
-get('/:board_name#[A-z0-9_-]+#')(board)
+get('/:board_name')(board)
 
 
 @get(r'/:file#.+\..+#', name='static')
