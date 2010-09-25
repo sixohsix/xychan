@@ -7,7 +7,7 @@ from sha import sha
 from sqlalchemy import (
     create_engine,
     Table, Column, Integer, String, MetaData, ForeignKey, DateTime,
-    func,
+    func, Boolean,
     )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, backref
@@ -150,6 +150,7 @@ class Visitor(Base):
     cookie_uuid = Column(String, unique=True, nullable=False)
     poster_name = Column(String, nullable=False, default='')
     tripcode = Column(String, nullable=False, default=random_str)
+    use_tripcode = Column(Boolean, nullable=False, default=False)
 
 
 def configure_db(db_uri, echo=False):

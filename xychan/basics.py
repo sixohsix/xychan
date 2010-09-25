@@ -100,13 +100,14 @@ def board(board_name, page=None):
     return dict(board=board, threads=threads)
 
 
-def remember_poster_name(poster_name):
+def remember_poster_prefs(poster_name, use_tripcode):
     vp = c.visitor_prefs
     if not vp:
         vp = Visitor(cookie_uuid=str(uuid4()))
         s.add(vp)
         set_cookie(VisitorPrefsCookie(vp.cookie_uuid))
     vp.poster_name = poster_name
+    vp.use_tripcode = use_tripcode
 
 
 def handle_post(board_name, thread_id=None):
@@ -125,7 +126,8 @@ def handle_post(board_name, thread_id=None):
             message="No, you must provide an image or some text in your post",
             redirect=url('board', board_name=board.short_name))
     poster_name = get_uni('poster_name')
-    remember_poster_name(poster_name)
+    use_tripcode = bool(get_uni('use_tripcode'))
+    remember_poster_prefs(poster_name, use_tripcode)
     s.add(Post(thread=thread,
                content=sanitize_content(s, get_uni('content')),
                poster_name=poster_name,
@@ -133,7 +135,7 @@ def handle_post(board_name, thread_id=None):
                poster_ip=request.get('REMOTE_ADDR', '0.0.0.0'),
                image_key=image_key,
                visitor_id=(c.visitor_prefs.id
-                           if get_uni('use_tripcode') else None)))
+                           if use_tripcode else None)))
     return dict(message="Post successful",
                 redirect=url('board', board_name=board.short_name))
 
