@@ -16,4 +16,4 @@ def trash_post(post_id):
             s.delete(post)
     else:
         redirect = url("index")
-    return dict(message="Shit's trashed, yo", redirect=redirect)
+    return dict(message="Trashed", redirect=redirect)

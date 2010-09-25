@@ -115,6 +115,10 @@ class Post(Base):
         if self.visitor_id:
             return self.visitor.tripcode
 
+    @property
+    def formatted_date(self):
+        return self.posted.strftime('%d %B %Y %H:%M')
+
 
 class User(Base):
     __tablename__ = 'users'

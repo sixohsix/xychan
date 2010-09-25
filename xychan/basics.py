@@ -177,4 +177,4 @@ def static(file):
 
 @error(404)
 def error404(msg):
-    return "well, shit."
+    return "Page not found."

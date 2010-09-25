@@ -24,6 +24,7 @@
       %if post.visitor_id:
       <div class="tripcode">!!{{post.visitor.tripcode}}</div>
       %end
+      <div class="post_date">{{post.formatted_date}}</div>
       <div class="post_id"><a name="{{post.id}}">No. {{post.id}}</a></div>
       <br>
       <div class="content">
