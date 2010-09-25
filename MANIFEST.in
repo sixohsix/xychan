@@ -1,0 +1,2 @@
+recursive-include xychan/templates *.tpl
+recursive-include xychan/static *.css *.jpg *.png *.gif
