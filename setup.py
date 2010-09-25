@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.1'
+version = '0.2'
 
 setup(name='xychan',
       version=version,
@@ -13,7 +13,7 @@ setup(name='xychan',
         "License :: OSI Approved :: GNU General Public License (GPL)",
         "Natural Language :: English",
         "Operating System :: POSIX",
-        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python",
         "Topic :: Communications :: BBS",
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
         ], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
