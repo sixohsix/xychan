@@ -1,6 +1,6 @@
 <div class="post_form">
 <form action="{{post_action}}" method="POST"
-    enctype="multipart/form-data">
+    enctype="multipart/form-data" name="post_form">
   <label for="name">Name</label><br>
   <input type="text" name="poster_name" value="{{c.visitor_prefs.poster_name if c.visitor_prefs else ""}}"><br>
   <label for="subject">Subject</label><br>

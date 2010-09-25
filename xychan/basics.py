@@ -96,7 +96,7 @@ def board(board_name, page=None):
                .filter(Thread.board == board)
                .order_by(desc(Thread.last_post_time))
                .offset(page_offset).limit(c.threads_per_page))
-    threads = [thread for thread in  threads if thread.posts]
+    threads = [thread for thread in threads if thread.posts]
     return dict(board=board, threads=threads)
 
 
@@ -117,7 +117,7 @@ def post_thread(board_name):
     img = request.files.get('image')
     if img is not None: # LOL WAT
         image_key = store_image(img.value)
-    if not (image_key or get_uni('content')):
+    if not (image_key or get_uni('content').strip()):
         return dict(
             message="No, you must provide an image or some text in your post",
             redirect=url('board', board_name=board.short_name))
@@ -144,7 +144,7 @@ def thread(board_name, thread_id):
     return dict(board=board, thread=thread)
 
 
-@post('/:board_name/:thread_id/post', name="post_reply")
+@post('/:board_name/:thread_id#[0-9]+#/post', name="post_reply")
 @view('message.tpl')
 def post_reply(board_name, thread_id):
     board = get_board_or_die(s, board_name)
@@ -153,7 +153,7 @@ def post_reply(board_name, thread_id):
     img = request.files.get('image')
     if img is not None: # LOL WAT
         image_key = store_image(img.value)
-    if not (image_key or get_uni('content')):
+    if not (image_key or get_uni('content').strip()):
         return dict(
             message="No, you must provide an image or some text in your post",
             redirect=url('thread', board_name=board.short_name,
@@ -171,7 +171,7 @@ def post_reply(board_name, thread_id):
                 redirect=url('board', board_name=board.short_name))
 
 
-get('/:board_name')(board)
+get(r'/:board_name#[^.]+#')(board)
 
 
 @get(r'/:file#.+\..+#', name='static')

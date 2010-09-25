@@ -32,6 +32,12 @@ def test_post_to_board():
     assert "Test post 2242" in r
 
 
+def test_no_blank_post():
+    r = app.post('/test/post', params=dict(
+            content=""))
+    assert "No, you must" in r
+
+
 def test_visit_board():
     r = app.get('/test/')
     assert "This is a post" in r
@@ -46,7 +52,19 @@ def test_visit_thread():
     assert "This is a post" in r
 
 
+def test_post_reply():
+    r = app.get('/test/1/')
+    f = r.forms[0]
+    f['content'] = 'Some reply'
+    f['subject'] = 'My subject'
+    r = f.submit()
+    r = app.get('/test/')
+    assert "Some reply" in r
+    assert "My subject" in r
+
+
 def test_thread_order():
+    setUp()
     r = app.post('/test/post', params=dict(
             content="Test post NEW"))
     r = app.get('/test')
