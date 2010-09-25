@@ -18,6 +18,12 @@
   </div>
   <hr>
   %end
+  [ <a href="{{url('board', board_name=board.short_name)}}">0</a>
+  %for i in range(board.num_pages)[1:]:
+    |
+    <a href="{{url('board_page', board_name=board.short_name, page=i)}}">{{i}}</a>
+  %end
+  ]
   %include _footer.tpl
 </body>
 </html>

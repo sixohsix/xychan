@@ -1,6 +1,7 @@
 
 from __future__ import with_statement
 
+import math
 from sha import sha
 
 from sqlalchemy import (
@@ -55,6 +56,10 @@ class Board(Base):
 
     id = Column(Integer, primary_key=True)
     short_name = Column(String, nullable=False, unique=True)
+
+    @property
+    def num_pages(self):
+        return int(math.ceil(float(len(self.threads)) / c.threads_per_page))
 
 
 class Thread(Base):

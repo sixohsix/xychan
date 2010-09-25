@@ -27,6 +27,8 @@ class Context(object):
         if cookie:
             return cookie.visitor_prefs
 
+    threads_per_page = 10
+
 
 def context_middleware(wrapped_app):
     def _context_middleware(environ, start_response):

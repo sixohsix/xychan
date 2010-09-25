@@ -87,13 +87,15 @@ def get_image(image):
 
 
 @get('/:board_name/', name='board')
+@get('/:board_name/page/:page#[0-9]+#', name='board_page')
 @view('board.tpl')
-def board(board_name):
+def board(board_name, page=None):
     board = get_board_or_die(s, board_name)
+    page_offset = int(page or 0) * c.threads_per_page
     threads = (s.query(Thread)
                .filter(Thread.board == board)
                .order_by(desc(Thread.last_post_time))
-               .all())
+               .offset(page_offset).limit(c.threads_per_page))
     threads = [thread for thread in  threads if thread.posts]
     return dict(board=board, threads=threads)
 
