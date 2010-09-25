@@ -31,7 +31,8 @@ class VisitorPrefsCookie(object):
 
 
 def set_cookie(cookie):
-    response.set_cookie(cookie.cookie_key, cookie, cookie.cookie_secret)
+    response.set_cookie(cookie.cookie_key, cookie, cookie.cookie_secret,
+                        path='/')
 
 
 def wipe_cookie(cookie):
