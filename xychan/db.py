@@ -13,10 +13,16 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, backref
 from sqlalchemy.sql.expression import desc
 
+from base62 import num_encode
+
 
 metadata = MetaData()
 Session = sessionmaker()
 Base = declarative_base(metadata=metadata)
+
+def random_str():
+    import random
+    return num_encode(random.randint(0, 18446744073709551615L))
 
 
 class SessionContextMgr(object):
@@ -94,12 +100,20 @@ class Post(Base):
     subject = Column(String, nullable=False)
     content = Column(String, nullable=False)
     image_key = Column(String)
+    visitor_id = Column(Integer, ForeignKey('visitors.id'),
+                        nullable=True)
 
     thread = relationship(Thread, backref=backref('posts', order_by=id))
+    visitor = relationship('Visitor', backref=backref('posts', order_by=id))
 
     @property
     def is_first(self):
         return self == self.thread.posts[0]
+
+    @property
+    def tripcode(self):
+        if self.visitor_id:
+            return self.visitor.tripcode
 
 
 class User(Base):
@@ -129,12 +143,13 @@ class User(Base):
         return self.password_hash == self._calc_password(password)
 
 
-class VisitorPrefs(Base):
-    __tablename__ = 'visitor_prefs'
+class Visitor(Base):
+    __tablename__ = 'visitors'
 
     id = Column(Integer, primary_key=True)
     cookie_uuid = Column(String, unique=True, nullable=False)
     poster_name = Column(String, nullable=False, default='')
+    tripcode = Column(String, nullable=False, default=random_str)
 
 
 def configure_db(db_uri, echo=False):

@@ -21,6 +21,9 @@
       %if post.poster_name:
       <div class="poster_name">{{post.poster_name}}</div>
       %end
+      %if post.visitor_id:
+      <div class="tripcode">!!{{post.visitor.tripcode}}</div>
+      %end
       <div class="post_id"><a name="{{post.id}}">No. {{post.id}}</a></div>
       <br>
       <div class="content">

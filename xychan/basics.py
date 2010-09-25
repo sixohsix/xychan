@@ -103,16 +103,19 @@ def board(board_name, page=None):
 def remember_poster_name(poster_name):
     vp = c.visitor_prefs
     if not vp:
-        vp = VisitorPrefs(cookie_uuid=str(uuid4()))
+        vp = Visitor(cookie_uuid=str(uuid4()))
         s.add(vp)
         set_cookie(VisitorPrefsCookie(vp.cookie_uuid))
     vp.poster_name = poster_name
 
 
-@post('/:board_name/post', name="post_thread")
-@view('message.tpl')
-def post_thread(board_name):
+def handle_post(board_name, thread_id=None):
     board = get_board_or_die(s, board_name)
+    if thread_id:
+        thread = get_thread_in_board_or_die(s, board, thread_id)
+    else:
+        thread = Thread(board=board, last_post_time=func.now())
+        s.add(thread)
     image_key = None
     img = request.files.get('image')
     if img is not None: # LOL WAT
@@ -121,18 +124,24 @@ def post_thread(board_name):
         return dict(
             message="No, you must provide an image or some text in your post",
             redirect=url('board', board_name=board.short_name))
-    thread = Thread(board=board, last_post_time=func.now())
-    s.add(thread)
     poster_name = get_uni('poster_name')
+    remember_poster_name(poster_name)
     s.add(Post(thread=thread,
                content=sanitize_content(s, get_uni('content')),
                poster_name=poster_name,
                subject=get_uni('subject'),
                poster_ip=request.get('REMOTE_ADDR', '0.0.0.0'),
-               image_key=image_key))
-    remember_poster_name(poster_name)
+               image_key=image_key,
+               visitor_id=(c.visitor_prefs.id
+                           if get_uni('use_tripcode') else None)))
     return dict(message="Post successful",
                 redirect=url('board', board_name=board.short_name))
+
+
+@post('/:board_name/post', name="post_thread")
+@view('message.tpl')
+def post_thread(board_name):
+    return handle_post(board_name)
 
 
 @get('/:board_name/:thread_id#[0-9]+#/', name='thread')
@@ -147,28 +156,7 @@ def thread(board_name, thread_id):
 @post('/:board_name/:thread_id#[0-9]+#/post', name="post_reply")
 @view('message.tpl')
 def post_reply(board_name, thread_id):
-    board = get_board_or_die(s, board_name)
-    thread = get_thread_in_board_or_die(s, board, thread_id)
-    image_key = None
-    img = request.files.get('image')
-    if img is not None: # LOL WAT
-        image_key = store_image(img.value)
-    if not (image_key or get_uni('content').strip()):
-        return dict(
-            message="No, you must provide an image or some text in your post",
-            redirect=url('thread', board_name=board.short_name,
-                         thread_id=thread.id))
-    thread.last_post_time = func.now()
-    poster_name = get_uni('poster_name')
-    s.add(Post(thread=thread,
-               content=sanitize_content(s, get_uni('content')),
-               poster_name=poster_name,
-               subject=get_uni('subject'),
-               poster_ip=request.get('REMOTE_ADDR', '0.0.0.0'),
-               image_key=image_key))
-    remember_poster_name(poster_name)
-    return dict(message="Post successful",
-                redirect=url('board', board_name=board.short_name))
+    return handle_post(board_name, thread_id)
 
 
 get(r'/:board_name#[^.]+#')(board)

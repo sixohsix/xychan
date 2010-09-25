@@ -94,7 +94,8 @@ h1.post_ok {
   .post .post_id,
   .post .reply_link,
   .post .reply_link form,
-  .post .post_ip {
+  .post .post_ip,
+  .post .tripcode {
   display: inline-block;
   margin-right: 1em;
   font-size: 85%;
@@ -107,6 +108,9 @@ h1.post_ok {
 }
 .post .poster_name {
   color: green;
+}
+.post .tripcode {
+  color: purple;
 }
 .post .reply_link {
   float: right;

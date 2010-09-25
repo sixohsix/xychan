@@ -3,6 +3,8 @@
     enctype="multipart/form-data" name="post_form">
   <label for="name">Name</label><br>
   <input type="text" name="poster_name" value="{{c.visitor_prefs.poster_name if c.visitor_prefs else ""}}"><br>
+  <label for="use_tripcode">Use secure tripcode</label>
+  <input type="checkbox" name="use_tripcode" value="y"><br>
   <label for="subject">Subject</label><br>
   <input type="text" name="subject" value=""><br>
   <label for="content">Content</label><br>

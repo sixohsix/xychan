@@ -1,6 +1,6 @@
 
 from bottle import response
-from .db import VisitorPrefs, User
+from .db import Visitor, User
 
 
 class AuthCookie(object):
@@ -26,8 +26,8 @@ class VisitorPrefsCookie(object):
 
     @property
     def visitor_prefs(self):
-        return (s.query(VisitorPrefs)
-                .filter(VisitorPrefs.cookie_uuid == self.cookie_uuid).first())
+        return (s.query(Visitor)
+                .filter(Visitor.cookie_uuid == self.cookie_uuid).first())
 
 
 def set_cookie(cookie):
