@@ -7,6 +7,9 @@ from bottle import (
     )
 
 from base62 import *
+from image_store import *
+from db import *
+from cookies import *
 
 
 def cache_forever(func):
@@ -29,9 +32,13 @@ def get_uni(key):
     return request.forms.get(key, '').decode('utf8')
 
 
-from image_store import *
-from db import *
-from cookies import *
+def assert_not_banned():
+    ip_addr = request.get('REMOTE_ADDR', '0.0.0.0')
+    if IpBan.ip_is_banned(ip_addr):
+        raise HTTPError(
+            403, template('message', message="You are banned",
+                          redirect=None))
+
 
 from . import STATIC_PATH
 

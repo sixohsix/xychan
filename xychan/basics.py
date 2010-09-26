@@ -143,6 +143,7 @@ def handle_post(board_name, thread_id=None):
 @post('/:board_name/post', name="post_thread")
 @view('message.tpl')
 def post_thread(board_name):
+    assert_not_banned()
     return handle_post(board_name)
 
 
@@ -158,6 +159,7 @@ def thread(board_name, thread_id):
 @post('/:board_name/:thread_id#[0-9]+#/post', name="post_reply")
 @view('message.tpl')
 def post_reply(board_name, thread_id):
+    assert_not_banned()
     return handle_post(board_name, thread_id)
 
 

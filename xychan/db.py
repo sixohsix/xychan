@@ -157,6 +157,21 @@ class Visitor(Base):
     use_tripcode = Column(Boolean, nullable=False, default=False)
 
 
+class IpBan(Base):
+    __tablename__ = 'ip_ban'
+
+    id = Column(Integer, primary_key=True)
+    ip_address = Column(String, nullable=False)
+    ban_start = Column(DateTime, nullable=False, default=func.now())
+    ban_expire = Column(DateTime, nullable=True, default=None)
+
+    @classmethod
+    def ip_is_banned(cls, ip_addr):
+        return (s.query(IpBan).filter(IpBan.ip_address == ip_addr)
+                .filter(IpBan.ban_expire < func.now())
+                .count())
+
+
 def configure_db(db_uri, echo=False):
     engine = create_engine(db_uri, echo=echo)
     metadata.bind = engine
