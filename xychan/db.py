@@ -3,6 +3,7 @@ from __future__ import with_statement
 
 import math
 from sha import sha
+from datetime import datetime
 
 from sqlalchemy import (
     create_engine,
@@ -167,11 +168,15 @@ class IpBan(Base):
     ban_start = Column(DateTime, nullable=False, default=func.now())
     ban_expire = Column(DateTime, nullable=True, default=None)
 
+    @property
+    def is_active(self):
+        return self.ban_expire == None or self.ban_expire > datetime.now()
+
     @classmethod
     def ip_is_banned(cls, ip_addr):
         return (s.query(IpBan).filter(IpBan.ip_address == ip_addr)
                 .filter(or_(
-                    IpBan.ban_expire < func.now(),
+                    IpBan.ban_expire > func.now(),
                     IpBan.ban_expire == None))
                 .count())
 

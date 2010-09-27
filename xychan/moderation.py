@@ -22,24 +22,6 @@ def delete_post_or_thread(post):
         s.delete(post)
 
 
-@post("/mod/trash_post/:post_id#[0-9]+#", name="trash_post")
-@view("message.tpl")
-@admin_only
-def trash_post(post_id):
-    post = s.query(Post).filter(Post.id == post_id).first()
-    if post:
-        redirect = url("board", board_name=post.thread.board.short_name)
-        if post.is_first:
-            thread = post.thread
-            [s.delete(p) for p in thread.posts]
-            s.delete(thread)
-        else:
-            s.delete(post)
-    else:
-        redirect = url("index")
-    return dict(message="Trashed", redirect=redirect)
-
-
 @get("/mod/post/:post_id#[0-9]+#", name="mod_post")
 @view("moderate_post.tpl")
 @admin_only
@@ -93,3 +75,15 @@ def mod_submit():
 def mod_bans():
     bans = s.query(IpBan).order_by(IpBan.ban_start).all()
     return dict(bans=bans)
+
+
+@post("/mod/ban_submit", name="mod_ban_submit")
+@view("message.tpl")
+@admin_only
+def mod_ban_submit():
+    ban = s.query(IpBan).filter(IpBan.id == get_uni("ban_id")).first()
+    if not ban:
+        return dict(message="Ban not there", redirect=url('mod_bans'))
+
+    ban.ban_expire = datetime.now()
+    return dict(message="Ban lifted", redirect=url('mod_bans'))

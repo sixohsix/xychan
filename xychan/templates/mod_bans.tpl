@@ -14,13 +14,17 @@
       <th>&nbsp;</th>
     </tr>
     %for ban in bans:
-    <form name="ban_{{ban.id}}" action="#" method="POST">
+    <form name="ban_{{ban.id}}" action="{{url('mod_ban_submit')}}" method="POST">
     <input type="hidden" name="ban_id" value="{{ban.id}}">
     <tr>
       <td>{{ban.ip_address}}</td>
       <td>{{ban.ban_start}}</td>
       <td>{{ban.ban_expire if ban.ban_expire else "never"}}</td>
-      <td><input type="submit" name="delete" value="X" class="button-lite"></td>
+      <td>
+        %if ban.is_active:
+        <input type="submit" name="delete" value="X" class="button-lite"></td>
+        %end
+        &nbsp;
     </tr>
     </form>
     %end
