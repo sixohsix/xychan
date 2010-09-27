@@ -1,6 +1,13 @@
 
 from util import *
 
+@get("/mod/home")
+@view("mod_home.tpl")
+@admin_only
+def mod_home():
+    return dict()
+
+
 @post("/mod/trash_post/:post_id#[0-9]+#", name="trash_post")
 @view("message.tpl")
 @admin_only
@@ -56,3 +63,11 @@ def mod_submit():
         raise Exception("wat?")
 
     return dict(message="Thy will be done", redirect=redirect)
+
+
+@get("/mod/bans", name="mod_bans")
+@view("mod_bans.tpl")
+@admin_only
+def mod_bans():
+    bans = s.query(IpBan).order_by(IpBan.ban_start).all()
+    return dict(bans=bans)
