@@ -112,6 +112,7 @@ def remember_poster_prefs(poster_name, use_tripcode):
 
 def handle_post(board_name, thread_id=None):
     board = get_board_or_die(s, board_name)
+    assert_not_banned(board)
     if thread_id:
         thread = get_thread_in_board_or_die(s, board, thread_id)
     else:
@@ -143,7 +144,6 @@ def handle_post(board_name, thread_id=None):
 @post('/:board_name/post', name="post_thread")
 @view('message.tpl')
 def post_thread(board_name):
-    assert_not_banned()
     return handle_post(board_name)
 
 
@@ -159,7 +159,6 @@ def thread(board_name, thread_id):
 @post('/:board_name/:thread_id#[0-9]+#/post', name="post_reply")
 @view('message.tpl')
 def post_reply(board_name, thread_id):
-    assert_not_banned()
     return handle_post(board_name, thread_id)
 
 

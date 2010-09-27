@@ -7,7 +7,7 @@ from sha import sha
 from sqlalchemy import (
     create_engine,
     Table, Column, Integer, String, MetaData, ForeignKey, DateTime,
-    func, Boolean,
+    func, or_
     )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, backref
@@ -156,7 +156,7 @@ class Visitor(Base):
     cookie_uuid = Column(String, unique=True, nullable=False)
     poster_name = Column(String, nullable=False, default='')
     tripcode = Column(String, nullable=False, default=random_str)
-    use_tripcode = Column(Boolean, nullable=False, default=False)
+    use_tripcode = Column(Integer(1), nullable=False, default=0)
 
 
 class IpBan(Base):
@@ -170,7 +170,9 @@ class IpBan(Base):
     @classmethod
     def ip_is_banned(cls, ip_addr):
         return (s.query(IpBan).filter(IpBan.ip_address == ip_addr)
-                .filter(IpBan.ban_expire < func.now())
+                .filter(or_(
+                    IpBan.ban_expire < func.now(),
+                    IpBan.ban_expire == None))
                 .count())
 
 

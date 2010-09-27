@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 from bottle import (
     route, error, HTTPError, get, post, request, response, view, url,
-    cookie_is_encoded,
+    cookie_is_encoded, template, HTTPResponse,
     )
 
 from base62 import *
@@ -32,12 +32,14 @@ def get_uni(key):
     return request.forms.get(key, '').decode('utf8')
 
 
-def assert_not_banned():
+def assert_not_banned(board):
     ip_addr = request.get('REMOTE_ADDR', '0.0.0.0')
     if IpBan.ip_is_banned(ip_addr):
-        raise HTTPError(
-            403, template('message', message="You are banned",
-                          redirect=None))
+        raise HTTPResponse(
+            template(
+                'message.tpl', message="You are banned",
+                redirect=url('board', board_name=board.short_name)),
+            status=403)
 
 
 from . import STATIC_PATH
