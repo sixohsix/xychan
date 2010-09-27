@@ -96,7 +96,9 @@ h1.post_ok {
   .post .reply_link form,
   .post .post_ip,
   .post .tripcode,
-  .post .post_date {
+  .post .post_date,
+  .post .locked,
+  .post .pinned {
   display: inline-block;
   margin-right: 1em;
   font-size: 85%;

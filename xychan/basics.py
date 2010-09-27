@@ -94,7 +94,7 @@ def board(board_name, page=None):
     page_offset = int(page or 0) * c.threads_per_page
     threads = (s.query(Thread)
                .filter(Thread.board == board)
-               .order_by(desc(Thread.last_post_time))
+               .order_by(desc(Thread.pinned), desc(Thread.last_post_time))
                .offset(page_offset).limit(c.threads_per_page))
     threads = [thread for thread in threads if thread.posts]
     return dict(board=board, threads=threads)

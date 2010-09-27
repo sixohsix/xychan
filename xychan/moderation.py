@@ -61,7 +61,15 @@ def mod_submit():
                         redirect=None)
 
     redirect = url("board", board_name=post.thread.board.short_name)
-    if get_uni("delete"):
+    if get_uni("pin"):
+        post.thread.pinned = 1
+    elif get_uni("unpin"):
+        post.thread.pinned = 0
+    elif get_uni("lock"):
+        post.thread.locked = 1
+    elif get_uni("unlock"):
+        post.thread.locked = 0
+    elif get_uni("delete"):
         delete_post_or_thread(post)
     elif get_uni("delete_and_ban"):
         days = int(get_uni("num_days_to_ban"))

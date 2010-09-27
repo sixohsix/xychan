@@ -74,6 +74,8 @@ class Thread(Base):
     id = Column(Integer, primary_key=True)
     board_id = Column(Integer, ForeignKey('boards.id'), nullable=False)
     last_post_time = Column(DateTime)
+    pinned = Column(Integer(1), nullable=False, default=0)
+    locked = Column(Integer(1), nullable=False, default=0)
 
     board = relationship(Board,
                          backref=backref(

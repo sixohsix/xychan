@@ -5,10 +5,16 @@
             href="{{url("mod_post", post_id=post.id)}}">{{post.poster_ip}}</a>
           </div>
         %end
-        %if reply_link:
+        %if reply_link and not post.thread.locked:
         <a class="button" href="{{reply_link}}">Reply</a>
         %end
       </div>
+      %if post.thread.pinned:
+      <div class="pinned">☕</div>
+      %end
+      %if post.thread.locked:
+      <div class="locked">⌚</div>
+      %end
       %if post.subject:
       <div class="subject">{{post.subject}}</div>
       %end
