@@ -1,19 +1,14 @@
     <div class="post{{' first' if first_post else ''}}">
       <div class="reply_link">
         %if c.user:
-          <div class="post_ip">{{post.poster_ip}}</div>
-          <!-- <a class="button-lite" href="#" title="Pin thread">☝</a> -->
-          <form name="mod_trash"
-            action="{{url("trash_post", post_id=post.id)}}"
-            method="POST">
-            <input type="submit" class="button-lite"
-              title="Trash {{"thread" if first_post else "post"}}"
-              value="♺"></form>
+          <div class="post_ip"><a
+            href="{{url("mod_post", post_id=post.id)}}">{{post.poster_ip}}</a>
+          </div>
         %end
         <a class="button-lite" href="#" title="Report post as offensive">⚑</a>
-      %if reply_link:
+        %if reply_link:
         <a class="button" href="{{reply_link}}">Reply</a>
-      %end
+        %end
       </div>
       %if post.subject:
       <div class="subject">{{post.subject}}</div>
@@ -36,3 +31,4 @@
         {{!post.content}}
         </div><div class="foot">&nbsp;</div>
       </div>
+    </div>
