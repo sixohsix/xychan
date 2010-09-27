@@ -23,7 +23,7 @@ def cache_forever(func):
 def admin_only(func):
     def _admin_only(*args, **kwargs):
         if not c.user:
-            raise HTTPError(403, 'Forbidden')
+            raise HTTPError(302, 'Found', header=[('Location', url('login'))])
         return func(*args, **kwargs)
     return _admin_only
 

@@ -1,11 +1,25 @@
 
 from util import *
 
-@get("/mod/home")
+@get("/mod")
+def mod():
+    raise HTTPError(302, "Found", header=[('Location', url('mod_home'))])
+
+
+@get("/mod/home", name="mod_home")
 @view("mod_home.tpl")
 @admin_only
 def mod_home():
     return dict()
+
+
+def delete_post_or_thread(post):
+    if post.is_first:
+        thread = post.thread
+        [s.delete(p) for p in thread.posts]
+        s.delete(thread)
+    else:
+        s.delete(post)
 
 
 @post("/mod/trash_post/:post_id#[0-9]+#", name="trash_post")
@@ -48,15 +62,15 @@ def mod_submit():
 
     redirect = url("board", board_name=post.thread.board.short_name)
     if get_uni("delete"):
-        s.delete(post)
+        delete_post_or_thread(post)
     elif get_uni("delete_and_ban"):
         days = int(get_uni("num_days_to_ban"))
-        s.delete(post)
+        delete_post_or_thread(post)
         s.add(IpBan(ip_address=post.poster_ip,
                     ban_expire=datetime.now() + timedelta(days=days)))
     elif get_uni("delete_and_ban_forever"):
-        s.delete(post)
-        s.add(IpBan(ip_address=post.poster_ip, expire=None))
+        delete_post_or_thread(post)
+        s.add(IpBan(ip_address=post.poster_ip, ban_expire=None))
     elif get_uni("annihilate"):
         raise NotImplemented()
     else:
