@@ -5,7 +5,6 @@
             href="{{url("mod_post", post_id=post.id)}}">{{post.poster_ip}}</a>
           </div>
         %end
-        <a class="button-lite" href="#" title="Report post as offensive">⚑</a>
         %if reply_link:
         <a class="button" href="{{reply_link}}">Reply</a>
         %end
