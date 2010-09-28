@@ -63,10 +63,10 @@ How do I run it? - the SMART way
  * Untar the xychan codebase
  * In your WSGI server:: 
 
-    from xychan import app
-    app.configure_db("postgres://user:password@host/dbname")
-    # (or some similar SQLAlchemy db url)
-    app.configure_image_dir("/some/safe/path/in/your/filesystem")
+        from xychan import app
+        app.configure_db("postgres://user:password@host/dbname")
+        # (or some similar SQLAlchemy db url)
+        app.configure_image_dir("/some/safe/path/in/your/filesystem")
 
 
 License
