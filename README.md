@@ -42,13 +42,13 @@ Downloads
 ---------
 
  * The latest stable version is v0.2
- * The latest stable version in an easily deployable zip file: (v0.2)[http://mike.verdone.ca/xychan/xychan.zip]
+ * The latest stable version in an easily deployable zip file: [v0.2](http://mike.verdone.ca/xychan/xychan.zip)
  * The easiest way to get xychan if you are a Python pro:
 
        $ pip install xychan
 
- * Stable source packages are in the (GitHub files section)[http://github.com/sixohsix/xychan/downloads]
- * Bleeding edge source for developers is in the (GitHub repository)[http://github.com/sixohsix/xychan]
+ * Stable source packages are in the [GitHub files section](http://github.com/sixohsix/xychan/downloads)
+ * Bleeding edge source for developers is in the [GitHub repository](http://github.com/sixohsix/xychan)
 
 
 How do I run it? - the EASY way (cgi)
