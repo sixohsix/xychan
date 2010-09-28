@@ -62,17 +62,18 @@ How do I run it? - the SMART way
    * Some kind of database (eg. sqlite3)
  * Untar the xychan codebase
  * In your WSGI server:: 
-     from xychan import app
-     app.configure_db("postgres://user:password@host/dbname")
-     # (or some similar SQLAlchemy db url)
-     app.configure_image_dir("/some/safe/path/in/your/filesystem")
+
+    from xychan import app
+    app.configure_db("postgres://user:password@host/dbname")
+    # (or some similar SQLAlchemy db url)
+    app.configure_image_dir("/some/safe/path/in/your/filesystem")
 
 
 License
 -------
 
-xychan is Free Software available under the GPL (GNU General Public
-License).
+xychan is Free Software available under the GPL3 (GNU General Public
+License v3).
 
 Those wanting to make closed-source commercial forks should contact me.
 
