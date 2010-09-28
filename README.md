@@ -5,6 +5,8 @@ xychan is a "chan-style" message board system like Wakaba, Kareha,
 Futaba, etc. Unlike these systems it's written in Python instead of a
 mess of Perl or PHP.
 
+[Actions speak louder than words. You can try it out here.](http://xychan-beta.mike.verdone.ca/)
+
 
 What is this, really?
 ---------------------
