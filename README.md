@@ -38,12 +38,25 @@ Status
 This is BETA quality software. It is not yet stable. It changes a lot.
 
 
+Downloads
+---------
+
+ * The latest stable version is v0.2
+ * The latest stable version in an easily deployable zip file: (v0.2)[http://mike.verdone.ca/xychan/xychan.zip]
+ * The easiest way to get xychan if you are a Python pro:
+
+       $ pip install xychan
+
+ * Stable source packages are in the (GitHub files section)[http://github.com/sixohsix/xychan/downloads]
+ * Bleeding edge source for developers is in the (GitHub repository)[http://github.com/sixohsix/xychan]
+
+
 How do I run it? - the EASY way (cgi)
 -------------------------------------
 
  * Your web server needs Python 2.5
  * Your web server needs ImageMagick to support images on the board
- * Download http://mike.verdone.ca/xychan/xychan.zip
+ * Download the easily deployable zip file, above
  * Copy it to your webserver in an empty directory that supports CGI
  * Unzip it
  * Modify xychan.cgi in case there's anything you want to change there
