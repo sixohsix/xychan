@@ -70,7 +70,7 @@ def get_image(image):
     return image_data
 
 
-@get('/:board_name', name='board')
+@get('/:board_name#[^_.][^.]*#', name='board')
 @get('/:board_name/page/:page#[0-9]+#', name='board_page')
 @view('board.tpl')
 def board(board_name, page=None):
@@ -144,8 +144,6 @@ def thread(board_name, thread_id):
 def post_reply(board_name, thread_id):
     return handle_post(board_name, thread_id)
 
-
-get(r'/:board_name#[^./]+#')(board)
 
 @get(r'/:file', name='static')
 @cache_forever
