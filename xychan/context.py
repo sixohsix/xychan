@@ -5,6 +5,8 @@ from cookies import *
 
 class Context(object):
 
+    threads_per_page = 10
+
     def _fetch_cookie(self, cookie_def):
         cookie = None
         if cookie_is_encoded(request.COOKIES.get(cookie_def.cookie_key, '')):
@@ -27,7 +29,9 @@ class Context(object):
         if cookie:
             return cookie.visitor_prefs
 
-    threads_per_page = 10
+    @property
+    def server_name(self):
+        return request.environ['SERVER_NAME'] or 'localhost'
 
 
 def context_middleware(wrapped_app):

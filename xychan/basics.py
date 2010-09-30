@@ -8,23 +8,6 @@ from util import *
 
 _link_line_re = re.compile(r"&gt;&gt; *([0-9]+) *")
 
-def get_board_or_die(s, board_name):
-    board = s.query(Board).filter(Board.short_name == board_name).first()
-    if not board:
-        raise HTTPError(404, "No such board.")
-    return board
-
-
-def get_thread_in_board_or_die(s, board, thread_id):
-    thread = (s.query(Thread)
-              .filter(Thread.id == thread_id)
-              .filter(Thread.board == board)
-              .first())
-    if not thread:
-        raise HTTPError(404, "No such thread.")
-    return thread
-
-
 def sanitize_content(s, content):
     lines = []
     for line in content.split('\n'):
@@ -69,6 +52,7 @@ from login import *
 
 from moderation import *
 
+from atom import *
 
 @get('/t_/:image', name='thumb')
 @cache_forever
@@ -86,7 +70,7 @@ def get_image(image):
     return image_data
 
 
-@get('/:board_name/', name='board')
+@get('/:board_name', name='board')
 @get('/:board_name/page/:page#[0-9]+#', name='board_page')
 @view('board.tpl')
 def board(board_name, page=None):
@@ -147,8 +131,7 @@ def post_thread(board_name):
     return handle_post(board_name)
 
 
-@get('/:board_name/:thread_id#[0-9]+#/', name='thread')
-@get('/:board_name/:thread_id#[0-9]+#')
+@get('/:board_name/:thread_id#[0-9]+#', name='thread')
 @view('thread.tpl')
 def thread(board_name, thread_id):
     board = get_board_or_die(s, board_name)
@@ -162,10 +145,9 @@ def post_reply(board_name, thread_id):
     return handle_post(board_name, thread_id)
 
 
-get(r'/:board_name#[^.]+#')(board)
+get(r'/:board_name#[^./]+#')(board)
 
-
-@get(r'/:file#.+\..+#', name='static')
+@get(r'/:file', name='static')
 @cache_forever
 def static(file):
     if file.split('.')[-1] in ('py', 'pyo', 'pyc'):
@@ -176,6 +158,6 @@ def static(file):
     return open(STATIC_PATH + os.sep + file, 'rb').read()
 
 
-@error(404)
-def error404(msg):
-    return "Page not found."
+#@error(404)
+#def error404(msg):
+#    return "Page not found."

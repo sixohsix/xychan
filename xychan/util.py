@@ -42,6 +42,28 @@ def assert_not_banned(board):
             status=403)
 
 
+def get_board_or_die(s, board_name):
+    board = s.query(Board).filter(Board.short_name == board_name).first()
+    if not board:
+        raise HTTPError(404, "No such board.")
+    return board
+
+
+def get_thread_in_board_or_die(s, board, thread_id):
+    thread = (s.query(Thread)
+              .filter(Thread.id == thread_id)
+              .filter(Thread.board == board)
+              .first())
+    if not thread:
+        raise HTTPError(404, "No such thread.")
+    return thread
+
+
+
 from . import STATIC_PATH
 
+def rurl(*args, **kwargs):
+    return ''.join(['http://', c.server_name, url(*args, **kwargs)])
+
 __builtins__['url'] = url
+__builtins__['rurl'] = rurl

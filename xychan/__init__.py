@@ -47,9 +47,19 @@ from .db import DbSessionMiddleware, configure_db
 from .image_store import configure_image_dir
 from .context import context_middleware
 
-app = context_middleware(
-    DbSessionMiddleware(
-        default_app()))
+
+def strip_path_middleware(app):
+    def _strip_path_app(environ, start_response):
+        environ['PATH_INFO'] = environ['PATH_INFO'].rstrip('/')
+        return app(environ, start_response)
+    return _strip_path_app
+
+
+app = strip_path_middleware(
+    context_middleware(
+        DbSessionMiddleware(
+            default_app())))
+
 app.configure_image_dir = configure_image_dir
 app.configure_db = configure_db
 
