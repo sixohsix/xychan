@@ -1,6 +1,7 @@
 <html>
 <head>
 %include _header.tpl
+<link rel="alternate" href="{{url('atom-thread-posts', board_name=board.short_name, thread_id=thread.id)}}" type="application/atom+xml">
   <title>{{board.short_name}} - Thread No. {{thread.id}}</title>
 </head>
 <body>
