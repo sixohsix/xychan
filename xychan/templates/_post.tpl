@@ -10,10 +10,7 @@
         %end
       </div>
       %if post.thread.pinned:
-      <div class="pinned">☕</div>
-      %end
-      %if post.thread.locked:
-      <div class="locked">⌚</div>
+      <div class="pinned"><img src="{{url('static', file='pushpin.png')}}"></div>
       %end
       %if post.subject:
       <div class="subject">{{post.subject}}</div>
@@ -26,6 +23,9 @@
       %end
       <div class="post_date">{{post.formatted_date}}</div>
       <div class="post_id"><a name="{{post.id}}">No. {{post.id}}</a></div>
+      %if post.thread.locked:
+      <div class="locked"><img src="{{url('static', file='lock.png')}}"></div>
+      %end
       <br>
       <div class="content">
         %if post.image_key:
