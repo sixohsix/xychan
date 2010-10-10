@@ -7,6 +7,9 @@ class Context(object):
 
     threads_per_page = 10
 
+    def __init__(self):
+        self.visitor_prefs = None
+
     def _fetch_cookie(self, cookie_def):
         cookie = None
         if cookie_is_encoded(request.COOKIES.get(cookie_def.cookie_key, '')):
@@ -23,11 +26,17 @@ class Context(object):
         else:
             return None
 
-    @property
-    def visitor_prefs(self):
-        cookie = self._fetch_cookie(VisitorPrefsCookie)
-        if cookie:
-            return cookie.visitor_prefs
+    def _get_visitor_prefs(self):
+        if not self._visitor_prefs:
+            cookie = self._fetch_cookie(VisitorPrefsCookie)
+            if cookie:
+                self._visitor_prefs = cookie.visitor_prefs
+        return self._visitor_prefs
+
+    def _set_visitor_prefs(self, v):
+        self._visitor_prefs = v
+
+    visitor_prefs = property(_get_visitor_prefs, _set_visitor_prefs)
 
     @property
     def server_name(self):

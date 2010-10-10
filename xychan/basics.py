@@ -70,7 +70,7 @@ def get_image(image):
     return image_data
 
 
-@get('/:board_name#[^_.][^.]*#', name='board')
+@get('/:board_name#[^_.][^./]*#', name='board')
 @get('/:board_name/page/:page#[0-9]+#', name='board_page')
 @view('board.tpl')
 def board(board_name, page=None):
@@ -90,8 +90,10 @@ def remember_poster_prefs(poster_name, use_tripcode):
         vp = Visitor(cookie_uuid=str(uuid4()))
         s.add(vp)
         set_cookie(VisitorPrefsCookie(vp.cookie_uuid))
+        c.visitor_prefs = vp
     vp.poster_name = poster_name
     vp.use_tripcode = use_tripcode
+    s.flush()
 
 
 def handle_post(board_name, thread_id=None):
