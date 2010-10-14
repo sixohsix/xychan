@@ -99,6 +99,7 @@ def remember_poster_prefs(poster_name, use_tripcode):
 def handle_post(board_name, thread_id=None):
     board = get_board_or_die(s, board_name)
     assert_not_banned(board)
+    assert_not_locked(board)
     if thread_id:
         thread = get_thread_in_board_or_die(s, board, thread_id)
     else:

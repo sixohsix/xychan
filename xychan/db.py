@@ -63,6 +63,8 @@ class Board(Base):
 
     id = Column(Integer, primary_key=True)
     short_name = Column(String, nullable=False, unique=True)
+    locked = Column(Integer(1), nullable=False, default=0)
+    hidden = Column(Integer(1), nullable=False, default=0)
 
     @property
     def num_pages(self):

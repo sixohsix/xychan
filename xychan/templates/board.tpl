@@ -6,7 +6,9 @@
 </head>
 <body>
   <h1>{{board.short_name}}</h1>
-  %include _post_form.tpl post_action=url("post_thread", board_name=board.short_name)
+  %if not board.locked:
+    %include _post_form.tpl post_action=url("post_thread", board_name=board.short_name)
+  %end
   <hr />
   %for thread in threads:
   <div class="thread">

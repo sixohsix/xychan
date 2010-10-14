@@ -104,3 +104,12 @@ def mod_create_board():
     board = Board(short_name=short_name)
     s.add(board)
     return dict(message="Board created", redirect=url("mod_boards"))
+
+@get("/mod/boards/lock/:board_name", name="mod_lock")
+@view("message.tpl")
+@admin_only
+def mod_lock_board(board_name):
+    locked = 1 if request.GET['state'] == 'lock' else 0
+    board = s.query(Board).filter(Board.short_name == board_name).first()
+    board.locked = locked
+    return dict(message="Done.", redirect=url("mod_boards"))

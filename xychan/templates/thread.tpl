@@ -6,7 +6,9 @@
 </head>
 <body>
   <h1>{{board.short_name}} - Thread No. {{thread.id}}</h1>
-  %include _post_form.tpl post_action=url("post_reply", board_name=board.short_name, thread_id=thread.id)
+  %if not board.locked:
+    %include _post_form.tpl post_action=url("post_reply", board_name=board.short_name, thread_id=thread.id)
+  %end
   <hr />
   <div class="thread">
     %first_post = True

@@ -42,6 +42,15 @@ def assert_not_banned(board):
             status=403)
 
 
+def assert_not_locked(board):
+    if board.locked:
+        raise HTTPResponse(
+            template(
+                'message.tpl', message="This board is locked",
+                redirect=url('board', board_name=board.short_name)),
+            status=403)
+
+
 def get_board_or_die(s, board_name):
     board = s.query(Board).filter(Board.short_name == board_name).first()
     if not board:
