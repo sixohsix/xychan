@@ -96,3 +96,11 @@ def mod_board():
     boards = s.query(Board).order_by(Board.id).all()
     return dict(boards=boards)
 
+@post("/mod/boards/create", name="mod_create_board")
+@view("message.tpl")
+@admin_only
+def mod_create_board():
+    short_name = request.forms['short_name']
+    board = Board(short_name=short_name)
+    s.add(board)
+    return dict(message="Board created", redirect=url("mod_boards"))

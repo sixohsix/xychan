@@ -5,7 +5,7 @@
 </head>
 <body>
   <h1>Boards</h1>
-  <table>
+  <table class="pt">
     <tr>
       <th>Board ID</th>
       <th>Short Name</th>
@@ -18,9 +18,9 @@
     %end
   </table>
 <h2>Create a new board</h2>
-<form id="new_board" action="#" method="POST">
-  <label for="short_name">Short Name</label>
-  /<input type="text" name="short_name" value="">/
+<form id="new_board" action="{{url('mod_create_board')}}" method="POST">
+  <label for="short_name">Short Name</label><br>
+  /<input type="text" name="short_name" value="">/<br>
   <input type="submit" name="submit" value="Create Board">
 </form>
 </body>

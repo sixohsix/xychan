@@ -1,4 +1,8 @@
-.bans td, .bans th {
+h2 {
+  margin-top: 24pt;
+}
+.bans td, .bans th,
+  .pt td, .pt th {
   padding-right: 24pt;
   padding-top: 6pt;
   text-align: left;
