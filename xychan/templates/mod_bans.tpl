@@ -16,7 +16,7 @@
     %for ban in bans:
     <form name="ban_{{ban.id}}" action="{{url('mod_ban_submit')}}" method="POST">
     <input type="hidden" name="ban_id" value="{{ban.id}}">
-    <tr>
+    <tr class="ban_row {{'active' if ban.is_active else 'expired'}}">
       <td>{{ban.ip_address}}</td>
       <td>{{ban.ban_start}}</td>
       <td>{{ban.ban_expire if ban.ban_expire else "never"}}</td>

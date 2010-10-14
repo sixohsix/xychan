@@ -3,3 +3,9 @@
   padding-top: 6pt;
   text-align: left;
 }
+.bans .expired {
+  color: #666;
+}
+.bans.active {
+  color: #622;
+}
