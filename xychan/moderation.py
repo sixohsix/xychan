@@ -101,7 +101,8 @@ def mod_board():
 @admin_only
 def mod_create_board():
     short_name = request.forms['short_name']
-    board = Board(short_name=short_name)
+    long_name = request.forms['long_name']
+    board = Board(short_name=short_name, long_name=long_name)
     s.add(board)
     return dict(message="Board created", redirect=url("mod_boards"))
 

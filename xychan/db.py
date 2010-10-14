@@ -69,10 +69,17 @@ class Board(Base):
     short_name = Column(String, nullable=False, unique=True)
     locked = Column(Integer(1), nullable=False, default=0)
     hidden = Column(Integer(1), nullable=False, default=0)
+    long_name = Column(String, nullable=False, unique=True)
+
 
     @property
     def num_pages(self):
         return int(math.ceil(float(len(self.threads)) / c.threads_per_page))
+
+
+    @property
+    def pretty_title(self):
+        return "/%s/ - %s" % (self.short_name, self.long_name)
 
 
 class Thread(Base):

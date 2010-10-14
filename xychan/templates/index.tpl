@@ -9,7 +9,7 @@
   %for board in boards:
     %if not board.hidden:
     <li><a href="{{url('board', board_name=board.short_name)}}">
-      {{board.short_name}}</a></li>
+      {{board.long_name if board.long_name else board.short_name}}</a></li>
     %end
   %end
   </ul>

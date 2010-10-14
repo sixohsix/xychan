@@ -2,11 +2,11 @@
 <head>
 %include _header.tpl
 <link rel="alternate" href="{{url('atom-thread-posts', board_name=board.short_name, thread_id=thread.id)}}" type="application/atom+xml">
-  <title>{{board.short_name}} - Thread No. {{thread.id}}</title>
+  <title>{{board.pretty_title}}</title>
 </head>
 <body>
   %include _board_list.tpl
-  <h1>{{board.short_name}} - Thread No. {{thread.id}}</h1>
+  <h1>{{board.pretty_title}} - Thread No. {{thread.id}}</h1>
   %if not board.locked:
     %include _post_form.tpl post_action=url("post_reply", board_name=board.short_name, thread_id=thread.id)
   %end
