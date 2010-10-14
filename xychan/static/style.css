@@ -212,6 +212,10 @@ hr { clear:both; margin-top: 12pt; margin-bottom: 12pt;
   font-size: 80%;
 }
 
+.board_list {
+  margin-bottom: 18pt;
+}
+
 @media speech {
   .post.first:before {
     content: "Thread ";

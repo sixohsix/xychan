@@ -5,6 +5,7 @@
   <title>{{board.short_name}}</title>
 </head>
 <body>
+  %include _board_list.tpl
   <h1>{{board.short_name}}</h1>
   %if not board.locked:
     %include _post_form.tpl post_action=url("post_thread", board_name=board.short_name)

@@ -58,6 +58,10 @@ def DbSessionMiddleware(wrapped_app):
     return _DbSessionMiddleware
 
 
+def get_all_visible_boards():
+    return s.query(Board).filter(Board.hidden == 0).all()
+
+
 class Board(Base):
     __tablename__ = 'boards'
 
