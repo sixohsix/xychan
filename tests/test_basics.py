@@ -2,7 +2,7 @@
 from __future__ import with_statement
 
 from bottle import debug
-from paste.fixture import TestApp
+from webtest import TestApp
 
 from xychan import app
 from xychan.db import configure_db, Post, Thread, Board, active_session, User

@@ -142,7 +142,7 @@ class User(Base):
         raise Exception("Write only")
     def _set_password(self, v):
         self.password_hash = self._calc_password(v)
-        return locals()
+
     password = property(_get_password, _set_password)
 
 
