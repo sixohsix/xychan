@@ -87,3 +87,12 @@ def mod_ban_submit():
 
     ban.ban_expire = datetime.now()
     return dict(message="Ban lifted", redirect=url('mod_bans'))
+
+
+@get("/mod/boards", name="mod_boards")
+@view("mod_boards.tpl")
+@admin_only
+def mod_board():
+    boards = s.query(Board).order_by(Board.id).all()
+    return dict(boards=boards)
+

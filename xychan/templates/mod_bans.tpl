@@ -1,7 +1,6 @@
 <html>
 <head>
-%include _header.tpl
-<link rel="stylesheet" type="text/css" href="{{url('static', file='mod_style.css')}}" />
+%include _mod_header.tpl
   <title>Moderate bans</title>
 </head>
 <body>
