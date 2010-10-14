@@ -7,8 +7,10 @@
   <h1>This is xychan</h1>
   <ul>
   %for board in boards:
+    %if not board.hidden:
     <li><a href="{{url('board', board_name=board.short_name)}}">
       {{board.short_name}}</a></li>
+    %end
   %end
   </ul>
   %include _footer.tpl

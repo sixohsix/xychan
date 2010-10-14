@@ -113,3 +113,13 @@ def mod_lock_board(board_name):
     board = s.query(Board).filter(Board.short_name == board_name).first()
     board.locked = locked
     return dict(message="Done.", redirect=url("mod_boards"))
+
+
+@get("/mod/boards/hide/:board_name", name="mod_hide")
+@view("message.tpl")
+@admin_only
+def mod_lock_board(board_name):
+    hidden = 1 if request.GET['state'] == 'hide' else 0
+    board = s.query(Board).filter(Board.short_name == board_name).first()
+    board.hidden = hidden
+    return dict(message="Done.", redirect=url("mod_boards"))

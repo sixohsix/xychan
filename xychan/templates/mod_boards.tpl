@@ -22,9 +22,9 @@
       <td>Unlocked [<a href="{{url('mod_lock', board_name=board.short_name)}}?state=lock">Lock</a>]</td>
       %end
       %if board.hidden:
-      <td>Hidden [<a href="#">Make visible</a>]</td>
+      <td>Hidden [<a href="{{url('mod_hide', board_name=board.short_name)}}?state=make_visible">Make visible</a>]</td>
       %else:
-      <td>Visible [<a href="#">Hide</a>]</td>
+      <td>Visible [<a href="{{url('mod_hide', board_name=board.short_name)}}?state=hide">Hide</a>]</td>
       %end
     </tr>
     %end
