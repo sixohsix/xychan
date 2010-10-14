@@ -33,26 +33,12 @@ def index():
     return dict(boards=boards)
 
 
-@get('/setup')
-def create_a_board():
-    b = Board(short_name='test')
-    s.add(b)
-    t = Thread(board=b)
-    s.add(t)
-    s.add(Post(
-            thread=t, content="This is a post", poster_ip='1.2.3.4',
-            poster_name="poster_name", subject="subject"))
-    u = User(username='admin')
-    u.password = 'adminadmin1'
-    s.add(u)
-    return dict()
-
-
 from login import *
 
 from moderation import *
 
 from atom import *
+
 
 @get('/t_/:image', name='thumb')
 @cache_forever

@@ -18,7 +18,17 @@ def setUp():
         s.query(Thread).delete()
         s.query(Board).delete()
         s.query(User).delete()
-    app.get('/setup')
+
+        b = Board(short_name='test', long_name='Test Board')
+        s.add(b)
+        t = Thread(board=b)
+        s.add(t)
+        s.add(Post(
+                thread=t, content="This is a post", poster_ip='1.2.3.4',
+                poster_name="poster_name", subject="subject"))
+        u = User(username='admin')
+        u.password = 'adminadmin1'
+        s.add(u)
 
 
 def test_home():
