@@ -43,8 +43,8 @@ This is BETA quality software. It is not yet stable. It changes a lot.
 Downloads
 ---------
 
- * The latest stable version is v0.2
- * The latest stable version in an easily deployable zip file: [v0.2](http://mike.verdone.ca/xychan/xychan.zip)
+ * The latest stable version is v0.3
+ * The latest stable version in an easily deployable zip file: (http://mike.verdone.ca/xychan/xychan.zip)
  * The easiest way to get xychan if you are a Python pro:
 
        $ pip install xychan
@@ -56,7 +56,7 @@ Downloads
 How do I run it? - the EASY way (cgi)
 -------------------------------------
 
- * Your web server needs Python 2.5
+ * Your web server needs Python 2.5 or higher
  * Your web server needs ImageMagick to support images on the board
  * Download the easily deployable zip file, above
  * Copy it to your webserver in an empty directory that supports CGI
@@ -69,7 +69,7 @@ How do I run it? - the EASY way (cgi)
 How do I run it? - the SMART way
 --------------------------------
 
- * Your web server needs Python 2.5
+ * Your web server needs Python 2.5 or higher
  * Your web server needs ImageMagick to support images in the board
  * Your web server needs the following Python packages installed:
    * bottle
