@@ -15,4 +15,5 @@ CREATE TABLE ip_ban (
         ban_start DATETIME NOT NULL, 
         ban_expire DATETIME, 
         PRIMARY KEY (id)
-)
+);
+

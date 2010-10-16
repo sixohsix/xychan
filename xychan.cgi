@@ -1,7 +1,7 @@
-#!/usr/bin/python2.7 -O
+#!/usr/bin/python -O
 
 # Run xychan as a CGI script.
-# Ensure the path to the python2.7 binary above is correct.
+# Ensure the path to the python binary above is correct.
 
 
 import xychan

@@ -40,20 +40,25 @@ from moderation import *
 from atom import *
 
 
+def _get_image(fetch_func, image):
+    try:
+        i_data = fetch_func(image)
+        response.content_type = 'image/' + image.split('.')[-1]
+        return i_data
+    except ImageNotFoundError:
+        raise HTTPError(404, "Not found")
+
+
 @get('/t_/:image', name='thumb')
 @cache_forever
 def get_thumbnail(image):
-    thumb_data = fetch_thumb(image)
-    response.content_type = 'image/' + image.split('.')[-1]
-    return thumb_data
+    return _get_image(fetch_thumb, image)
 
 
 @get('/i_/:image', name='image')
 @cache_forever
 def get_image(image):
-    image_data = fetch_image(image)
-    response.content_type = 'image/' + image.split('.')[-1]
-    return image_data
+    return _get_image(fetch_image, image)
 
 
 @get('/:board_name#[^_.][^./]*#', name='board')
@@ -142,7 +147,10 @@ def static(file):
     mime_type, encoding = guess_type(file)
     if mime_type:
         response.content_type = mime_type
-    return open(STATIC_PATH + os.sep + file, 'rb').read()
+    f = STATIC_PATH + os.sep + file
+    if not os.path.exists(f):
+        raise HTTPError(404, "Not found")
+    return open(STATIC_PATH + os.sep + file, 'rb')
 
 
 #@error(404)

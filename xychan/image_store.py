@@ -15,6 +15,10 @@ from sha import sha
 from .util import num_encode
 
 
+class ImageNotFoundError(Exception):
+    pass
+
+
 def configure_image_dir(d):
     global IMAGE_DIR, THUMBS_DIR
     IMAGE_DIR = d
@@ -59,15 +63,17 @@ def store_image(image_data):
 
 
 def fetch_image(fn):
-    if fn.count(os.sep):
-        raise Exception("Uh no")
-    return open(IMAGE_DIR + os.sep + fn).read()
+    f = IMAGE_DIR + os.sep + fn
+    if fn.count(os.sep) or not os.path.exists(f):
+        raise ImageNotFoundError()
+    return open(f, 'rb').read()
 
 
 def fetch_thumb(fn):
-    if fn.count(os.sep):
-        raise Exception("Uh no")
-    return open(THUMBS_DIR + os.sep + fn).read()
+    f = THUMBS_DIR + os.sep + fn
+    if fn.count(os.sep) or not os.path.exists(f):
+        raise ImageNotFoundError()
+    return open(f, 'rb').read()
 
 
-__all__ = ['fetch_image', 'fetch_thumb', 'store_image']
+__all__ = ['fetch_image', 'fetch_thumb', 'store_image', 'ImageNotFoundError']
