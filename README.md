@@ -51,7 +51,7 @@ Downloads
 
  * Stable source packages are in the [GitHub files section](http://github.com/sixohsix/xychan/downloads)
  * Bleeding edge source for developers is in the [GitHub repository](http://github.com/sixohsix/xychan)
-   * or in the backup repo at [mike.verdone.ca](http://mike.verdone.ca/git/xychan)
+     * or in the backup repo at [mike.verdone.ca](http://mike.verdone.ca/git/xychan) ([browseable with gitweb](http://mike.verdone.ca/git/?p=xychan;a=summary))
 
 
 How do I run it? - the EASY way (cgi)
