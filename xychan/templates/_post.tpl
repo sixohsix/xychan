@@ -9,7 +9,7 @@
         <a class="button" href="{{reply_link}}">Reply</a>
         %end
       </div>
-      %if post.thread.pinned:
+      %if post.thread.pinned and first_post:
       <div class="pinned"><img src="{{url('static', file='pushpin.png')}}"></div>
       %end
       %if post.subject:
@@ -36,4 +36,4 @@
         {{!post.content}}
         </div><div class="foot">&nbsp;</div>
       </div>
-    </div>
+    </div><br>
